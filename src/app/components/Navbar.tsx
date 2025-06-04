@@ -48,7 +48,7 @@ export default function Navbar() {
       </div>
 
       {isOpen && (
-        <div className="md:hidden flex flex-col items-center space-y-6 mt-4  text-4xl">
+        <div className="md:hidden flex flex-col items-center space-y-6 mt-4  text-5xl">
           <a
             href="#home"
             className="hover:text-black"
