@@ -39,14 +39,20 @@ export default function SubscribePage() {
 
       <div className="flex space-x-6 mt-12 text-[40px] "
       >
-        <a href="#" aria-label="Facebook">
+        <a href="http://www.facebook.com/gtechmulearn" aria-label="Facebook">
           <i className="fab fa-facebook-square"></i>
         </a>
-        <a href="#" aria-label="Instagram">
+        <a href="https://www.instagram.com/mulearn.official/" aria-label="Instagram">
           <i className="fab fa-instagram"></i>
         </a>
         <a href="#" aria-label="X (Twitter)">
           <i className="fab fa-x-twitter"></i>
+        </a>
+        <a href="https://www.linkedin.com/company/gtechmulearn/" aria-label="LinkedIn">
+          <i className="fab fa-linkedin"></i>
+        </a>
+        <a href="https://discord.com/channels/771670169691881483/" aria-label="Discord">
+          <i className="fab fa-discord"></i>
         </a>
       </div>
     </section>
