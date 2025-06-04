@@ -12,13 +12,13 @@ export default function SubscribePage() {
 
   return (
     <section  id="contact" className="min-h-[80vh] flex flex-col items-center justify-center bg-[#282786] text-white ">
-      <h1 className="mt-20 text-3xl sm:text-4xl font-semibold text-center">
+      <h1 className="mt-20 md:text-3xl text-[46px] font-semibold text-center">
         Stay Connected with μLearn
       </h1>
 
       <form
         onSubmit={handleSubmit}
-        className="mt-12 flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4"
+        className="mt-8 md:mt-12 flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4"
       >
         <input
           type="email"
