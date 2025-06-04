@@ -5,11 +5,11 @@ export default function Hero() {
  
   return (
     <>
-      <section id="home" className="bg-[#4F4CFF] min-h-screen py-30 px-42">
+      <section id="home" className="bg-[#4F4CFF] min-h-screen  p-24 md:py-30 md:px-42 ">
         <h1 className="text-[116px] leading-none  font-bold text-center">
           Join μment: Kickstart Your Project Building Journey!
         </h1>
-        <div className="my-14 ">
+        <div className="md:my-14  my-18">
           <Image
             src="/Hero.png"
             alt="Project building illustration"

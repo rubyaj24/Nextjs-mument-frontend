@@ -4,9 +4,9 @@ export default function About() {
   return (
     <main
       id="about"
-      className="bg-[#4F4CFF] text-white min-h-screen px-4 py-10 md:px-10"
+      className="bg-[#4F4CFF] text-white min-h-screen p-4 md:py-10 md:px-10"
     >
-      <div className="mx-30  space-y-6">
+      <div className="mx-20 md:mx-30  space-y-6">
         <h1 className="text-6xl font-medium text-black">What is μment?</h1>
         <p className="mt-12 text-4xl ">
           μment is an exciting online event organized by μLearn, aimed at
@@ -17,7 +17,7 @@ export default function About() {
         </p>
       </div>
 
-      <div id="enroll" className="mt-20 mx-30 space-y-4">
+      <div id="enroll" className="mx-20 mt-16 md:mt-20 md:mx-30 space-y-4">
         <h3 className="text-6xl font-medium text-black">
           Kickstart your journey.
         </h3>
@@ -32,14 +32,14 @@ export default function About() {
         </div>
       </div>
 
-      <section className="m-30  flex flex-col md:flex-row gap-10">
-        <div className="relative rounded-4xl overflow-hidden">
+      <section className="m-30  flex flex-col md:flex-row md:gap-10 justify-center items-center">
+        <div className="relative w-[500px]   rounded-[40px] md:rounded-4xl overflow-hidden ">
           <Image
             src="/μlearn.png"
             alt="μLearn card"
             width={500}
             height={500}
-            className="object-cover "
+            className="object-cover mx-auto md:mx-0"
           />
         </div>
         <div className=" h-[500px] w-[700px] flex flex-col items-center justify-center">
