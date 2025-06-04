@@ -34,7 +34,7 @@ export default function SubscribePage() {
         />
         <button
           type="submit"
-          className="bg-black text-white text-3xl px-12 py-4 md:px-8 md:py-3 rounded-2xl  md:rounded hover:scale-110 transition duration-300 "
+          className="bg-black text-white text-3xl md:text-xl px-12 py-4 md:px-8 md:py-3 rounded-2xl  md:rounded hover:scale-110 transition duration-300 "
         >
           Subscribe
         </button>
