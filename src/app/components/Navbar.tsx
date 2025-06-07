@@ -11,18 +11,18 @@ export default function Navbar() {
       <div className="flex items-center justify-between px-2 sm:px-4 lg:px-6 lg:justify-center">
         <div className="lg:text-4xl font-bold">
           <Image
-            src="/logo.svg"
+            src="/mument.png"
             width={100}
             height={100}
             alt="Logo"
-            className="w-32 h-16 sm:w-40 sm:h-20 md:w-48 md:h-24 lg:w-32 lg:h-10"
+            className="w-32 pt-2 md:w-48 lg:w-32"
           />
         </div>
 
         <div className="lg:hidden absolute top-4 right-4 sm:top-6 sm:right-6">
           <button onClick={() => setIsOpen(!isOpen)}>
             <i
-              className={`fas ${isOpen ? "fa-xmark" : "fa-bars"} text-5xl pt-2 md:text-6xl`}
+              className={`fas ${isOpen ? "fa-xmark" : "fa-bars"} text-4xl md:text-6xl`}
             ></i>
           </button>
         </div>

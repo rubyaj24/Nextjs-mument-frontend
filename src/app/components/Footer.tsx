@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 
 export default function SubscribePage() {
@@ -68,6 +69,15 @@ export default function SubscribePage() {
         >
           <i className="fab fa-discord"></i>
         </a>
+      </div>
+      <div className="absolute bottom-6 md:bottom-8 lg:bottom-10 xl:bottom-12">
+        <Image
+          src="/logo.svg"
+          width={100}
+          height={100}
+          alt="Footer Logo"
+          className="w-32 md:w-48 lg:w-64"
+        />
       </div>
     </section>
   );
