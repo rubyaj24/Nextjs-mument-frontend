@@ -14,7 +14,7 @@ export default function About() {
     >
       <div className="mt-8 sm:mt-10 md:mt-12 lg:mt-14 mx-4 sm:mx-8 md:mx-16 lg:mx-20 xl:mx-30 space-y-4 sm:space-y-6">
         <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-medium text-black leading-tight">
-          What is <Image src="/mument-black.png" alt="μment Logo" width={90} height={100} className="inline-block pt-2" />?
+          What is <Image src="/mument-black.png" alt="μment Logo" width={100} height={100} className="inline-block pt-2 w-32 md:w-60 lg:w-72" />?
         </h1>
         <p className="mt-6 sm:mt-8 md:mt-10 lg:mt-12 text-lg md:text-xl lg:text-2xl xl:text-3xl leading-relaxed">
           μment is an exciting online event organized by μLearn, aimed at
