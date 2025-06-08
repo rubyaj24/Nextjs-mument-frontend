@@ -10,11 +10,11 @@ export default function About() {
   return (
     <main
       id="about"
-      className="bg-[#4F4CFF] text-white min-h-screen p-4 sm:p-6 md:p-8 lg:p-10"
+      className="bg-[#4F4CFF] text-white min-h-screen p-4 sm:p-6 md:p-8 lg:p-10 scroll-smooth"
     >
       <div className="mt-8 sm:mt-10 md:mt-12 lg:mt-14 mx-4 sm:mx-8 md:mx-16 lg:mx-20 xl:mx-30 space-y-4 sm:space-y-6">
         <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-medium text-black leading-tight">
-          What is μment?
+          What is <Image src="/mument-black.png" alt="μment Logo" width={90} height={100} className="inline-block pt-2" />?
         </h1>
         <p className="mt-6 sm:mt-8 md:mt-10 lg:mt-12 text-lg md:text-xl lg:text-2xl xl:text-3xl leading-relaxed">
           μment is an exciting online event organized by μLearn, aimed at
@@ -56,7 +56,7 @@ export default function About() {
             <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/80">
               Karma Mining Event
             </p>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/80">March 15, 2024</p>
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/80">March 15, 2025</p>
             <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/80">
               Virtual Platform
             </p>

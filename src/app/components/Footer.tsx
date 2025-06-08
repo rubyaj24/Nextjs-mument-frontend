@@ -70,7 +70,7 @@ export default function SubscribePage() {
           <i className="fab fa-discord"></i>
         </a>
       </div>
-      <div className="absolute bottom-6 md:bottom-8 lg:bottom-10 xl:bottom-12">
+      <div className="relative mt-8 sm:mt-10 md:mt-12 lg:mt-16">
         <Image
           src="/logo.svg"
           width={100}
