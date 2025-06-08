@@ -4,6 +4,8 @@ import Footer from "@/app/components/Footer"
 import Navbar from "@/app/components/Navbar";
 export default function Home() {
 
+  document.title = "Home | Mument";
+
   return (
     <div className="w-full min-h-screen">
       <Navbar />
