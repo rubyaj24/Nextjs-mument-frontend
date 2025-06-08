@@ -14,7 +14,7 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
             <IoMenu className="h-6 w-6 md:hidden text-white"
               onClick={toggleSidebar} />
             <Image
-              src="/mument.png"
+              src="/Vector.svg"
               alt="Logo"
               width={100}
               height={100}
