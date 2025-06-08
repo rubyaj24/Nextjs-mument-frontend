@@ -1,15 +1,15 @@
 'use client'
-import Link from "next/link"
-import { useState, useEffect } from "react"
+// import Link from "next/link"
+// import { useState, useEffect } from "react"
 
 const DashboardButtons = () => {
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  useEffect(() => {
-    const auth = localStorage.getItem('isAuthenticated')
-    setIsAuthenticated(auth === 'true')
-  }, [])
+  // useEffect(() => {
+  //   const auth = localStorage.getItem('isAuthenticated')
+  //   setIsAuthenticated(auth === 'true')
+  // }, [])
 
   return (
     <>
