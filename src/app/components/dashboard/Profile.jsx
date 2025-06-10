@@ -110,7 +110,7 @@ const Profile = () => {
             </div>
             
             <div className="bg-gray-50 p-4 rounded-lg">
-              <p className="font-semibold text-gray-700">MU ID:</p>
+              <p className="font-semibold text-gray-700">μ ID:</p>
               <p className="text-gray-900">{profile.mu_id || 'Not provided'}</p>
             </div>
           </div>

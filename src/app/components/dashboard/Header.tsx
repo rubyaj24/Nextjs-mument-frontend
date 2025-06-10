@@ -67,6 +67,7 @@ const Header = ({ toggleSidebar, setActivePage }: HeaderProps) => {
 
   const handleProfileClick = () => {
       setActivePage('profile');
+      setShowDropdown(false);
     };
 
   return (

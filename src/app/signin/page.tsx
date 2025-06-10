@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
 const SignIn = () => {
@@ -98,7 +99,7 @@ const SignIn = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-600 to-purple-700 flex items-center justify-center px-4">
       <div className="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Welcome Back</h1>
+          <h1 className="text-3xl font-bold text-gray-800 mb-2"><Image src="/mument-black.png" alt="Logo" width={100} height={100} className='inline-block w-28 pt-1' /><span className='text-gray-500'> |</span> Sign In</h1>
           <p className="text-gray-600">Sign in to your account</p>
         </div>
 
