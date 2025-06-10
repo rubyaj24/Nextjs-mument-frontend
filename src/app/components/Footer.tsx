@@ -1,15 +1,15 @@
-"use client";
+// "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+// import { useState } from "react";
 
 export default function SubscribePage() {
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    alert(`Subscribed with: ${email}`);
-  };
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   alert(`Subscribed with: ${email}`);
+  // };
 
   return (
     <section
@@ -20,7 +20,7 @@ export default function SubscribePage() {
         Stay Connected with μLearn
       </h1>
 
-      <form
+      {/* <form
         onSubmit={handleSubmit}
         className="mt-6 sm:mt-8 md:mt-10 lg:mt-12 flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 w-full max-w-4xl px-4"
       >
@@ -38,7 +38,7 @@ export default function SubscribePage() {
         >
           Subscribe
         </button>
-      </form>
+      </form> */}
 
       <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mt-8 sm:mt-10 md:mt-12 lg:mt-16 text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
         <a

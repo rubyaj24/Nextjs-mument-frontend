@@ -14,11 +14,14 @@ const Dashboard = () => {
 
   const dateRange = {
     start: new Date('2025-06-08'),
-    end: new Date('2025-06-08').setDate(new Date('2025-06-08').getDate() + 30)
+    end: new Date('2025-06-08')
   };
+  
+  // Set end date to 30 days after start date
+  dateRange.end.setDate(dateRange.end.getDate() + 30);
 
   const currentDay = new Date('2025-06-08');
-  const totalDays = Math.ceil((dateRange.end - dateRange.start) / (1000 * 60 * 60 * 24));
+  const totalDays = Math.ceil((dateRange.end.getTime() - dateRange.start.getTime()) / (1000 * 60 * 60 * 24));
 
   const currentWeek = Math.ceil((currentDay.getDate() - dateRange.start.getDate() + 1) / 7);
   const totalWeeks = Math.ceil(totalDays / 7);

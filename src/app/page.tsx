@@ -11,7 +11,7 @@ export default function Home() {
         <title>μment - Kickstart Your Project Journey</title>
       </Head>
       <Navbar />
-      <hr className="h-[1.5px] bg-gray-600 border-0" />
+      {/* <hr className="h-[1.5px] bg-gray-600 border-0" /> */}
       <main className="w-full fade-in-up">
         <Hero />
         <div className="rise-up [animation-timeline:view()] [animation-range:0%_cover_40%]">
