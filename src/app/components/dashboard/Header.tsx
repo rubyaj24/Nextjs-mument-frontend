@@ -7,12 +7,14 @@ import { useState, useEffect } from 'react';
 
 interface HeaderProps {
   toggleSidebar: () => void;
+  setActivePage: (page: string) => void;
 }
 
-const Header = ({ toggleSidebar }: HeaderProps) => {
+const Header = ({ toggleSidebar, setActivePage }: HeaderProps) => {
   const [userName, setUserName] = useState('User');
   const [profile, setProfile] = useState<{ img_url?: string }>({});
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const fetchUserName = async () => {
@@ -45,14 +47,27 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
       }
     };
 
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+    };
+
+    
+
+    checkMobile();
+
     fetchUserName();
   }, []);
   
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userEmail');
-    window.location.href = '/login';
+    window.location.href = '/signin';
   };
+
+  const handleProfileClick = () => {
+      setActivePage('profile');
+    };
 
   return (
     <>
@@ -65,7 +80,7 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
               alt="Logo"
               width={100}
               height={100}
-              className="w-32 px-2 pt-2"
+              className={isMobile ? "hidden" : "w-32 px-2 pt-2"}
             />
             <h1 className="text-white">
               <span className='italic text-2xl'>Hi, </span><span className='font-semibold text-3xl'>{userName}!</span>
@@ -81,7 +96,10 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
               </div>
               {showDropdown && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
-                  <Link href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-500">Profile</Link>
+                  <Link 
+                    href="#" 
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-500"
+                    onClick={handleProfileClick}>Profile</Link>
                   <Link href="/" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-500">Go to Home</Link>
                   <Link
                     href="#"

@@ -5,10 +5,23 @@ import Header from '../components/dashboard/Header';
 import SideBar from '../components/dashboard/SideBar';
 import Profile from '../components/dashboard/Profile';
 import Community from '../components/dashboard/Community'
+import Updates from '../components/dashboard/Updates';
 
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [activePage, setActivePage] = useState('profile');
+
+
+  const dateRange = {
+    start: new Date('2025-06-08'),
+    end: new Date('2025-06-08').setDate(new Date('2025-06-08').getDate() + 30)
+  };
+
+  const currentDay = new Date('2025-06-08');
+  const totalDays = Math.ceil((dateRange.end - dateRange.start) / (1000 * 60 * 60 * 24));
+
+  const currentWeek = Math.ceil((currentDay.getDate() - dateRange.start.getDate() + 1) / 7);
+  const totalWeeks = Math.ceil(totalDays / 7);
 
   // Handle responsive sidebar behavior
   useEffect(() => {
@@ -19,13 +32,9 @@ const Dashboard = () => {
       setIsSidebarOpen(!isMobile);
     };
 
-    // Set initial state
     handleResize();
 
-    // Add event listener
     window.addEventListener('resize', handleResize);
-
-    // Cleanup
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
@@ -45,6 +54,8 @@ const Dashboard = () => {
         return <Profile />;
       case 'community':
         return <Community />;
+      case 'updates':
+        return <Updates />;
       default:
         return <div className="text-center text-gray-500">Dashboard Home - Select an option from the sidebar</div>;
     }
@@ -53,7 +64,10 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
-      <Header toggleSidebar={toggleSidebar} />
+      <Header 
+        toggleSidebar={toggleSidebar} 
+        setActivePage={handleSetActivePage}
+      />
 
       <div className="flex">
         {/* Sidebar */}
@@ -66,7 +80,11 @@ const Dashboard = () => {
 
         {/* Main Content Area */}
         <main className="flex-1 p-8">
-          <div className="mb-4 text-sm text-gray-600">Current page: {activePage}</div>
+          <div className='flex justify-between'>
+            <p className="mb-4 text-sm text-gray-600">Current page: <span className="text-blue-500 font-semibold">{activePage[0].toUpperCase() + activePage.slice(1)}</span></p>
+            <p className="mb-4 text-sm text-gray-600">Day: {currentDay.getDate()} of {totalDays}</p>
+            <p className="mb-4 text-sm text-gray-600">Week: {currentWeek} of {totalWeeks}</p>
+          </div>
           {renderContent()}
         </main>
       </div>
