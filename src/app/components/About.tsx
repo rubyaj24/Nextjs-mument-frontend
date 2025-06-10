@@ -1,15 +1,20 @@
+'use client'
 import Image from "next/image";
-import EnrollButton from "./EnrollButton";
+import EnrollButton from "./DashboardButtons";
 
 export default function About() {
+
+  const handleLearnMore = () => {
+    window.open("https://musprint-cet.vercel.app", "_blank");
+  };
   return (
     <main
       id="about"
-      className="bg-[#4F4CFF] text-white min-h-screen p-4 sm:p-6 md:p-8 lg:p-10"
+      className="bg-[#4F4CFF] text-white min-h-screen p-4 sm:p-6 md:p-8 lg:p-10 scroll-smooth"
     >
       <div className="mt-8 sm:mt-10 md:mt-12 lg:mt-14 mx-4 sm:mx-8 md:mx-16 lg:mx-20 xl:mx-30 space-y-4 sm:space-y-6">
         <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-medium text-black leading-tight">
-          What is μment?
+          What is <Image src="/mument-black.png" alt="μment Logo" width={100} height={100} className="inline-block pt-2 w-32 md:w-60 lg:w-72" />?
         </h1>
         <p className="mt-6 sm:mt-8 md:mt-10 lg:mt-12 text-lg md:text-xl lg:text-2xl xl:text-3xl leading-relaxed">
           μment is an exciting online event organized by μLearn, aimed at
@@ -45,18 +50,19 @@ export default function About() {
         </div>
         <div className="w-full lg:w-[600px] xl:w-[700px] flex flex-col items-center justify-center text-center lg:text-left">
           <h4 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-black font-medium mb-6 sm:mb-8 md:mb-10">
-            μLearn Team
+            μSprint
           </h4>
           <div className="space-y-2 sm:space-y-3 text-center">
             <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/80">
-              Interactive Workshop
+              Karma Mining Event
             </p>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/80">March 15, 2024</p>
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/80">March 15, 2025</p>
             <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/80">
               Virtual Platform
             </p>
           </div>
-          <button className="mt-6 sm:mt-8 md:mt-10 lg:mt-12 text-sm sm:text-base md:text-lg lg:text-xl px-4 sm:px-6 md:px-8 lg:px-10 py-2 sm:py-3 md:py-4 border border-white rounded-md hover:bg-white hover:text-[#4B42F5] transition">
+          <button className="mt-6 sm:mt-8 md:mt-10 lg:mt-12 text-sm sm:text-base md:text-lg lg:text-xl px-4 sm:px-6 md:px-8 lg:px-10 py-2 sm:py-3 md:py-4 border border-white rounded-md hover:bg-white hover:text-[#4B42F5] transition"
+          onClick={handleLearnMore}>
             Learn More
           </button>
         </div>
