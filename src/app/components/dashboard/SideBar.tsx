@@ -2,28 +2,90 @@
 import { FaUser } from 'react-icons/fa'
 import { FaUsers } from 'react-icons/fa6'
 import { MdOutlineLogout } from "react-icons/md";
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface SideBarProps {
   isOpen: boolean;
+  isMobile?: boolean;
   setActivePage: (page: string) => void;
   activePage: string;
+  toggleSidebar: () => void;
 }
 
-const SideBar = ({ isOpen, setActivePage, activePage }: SideBarProps) => {
+const SideBar = ({ isOpen, setActivePage, activePage, toggleSidebar }: SideBarProps) => {
+  const [isMobile, setIsMobile] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      
+      // Auto-open sidebar on large screens
+      if (!mobile && !isOpen) {
+        // You might need to call toggleSidebar here if the parent allows it
+        // For now, we'll handle this in the parent component
+      }
+    };
+
+    // Check on mount
+    checkMobile();
+
+    // Add event listener
+    window.addEventListener('resize', checkMobile);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', checkMobile);
+  }, [isOpen]);
 
   const handleLogout = () => {
-    // Add logout logic here
-    console.log('Logout clicked');
+    // Clear all authentication data
+    localStorage.removeItem('token');
+    localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('refreshToken');
+    
+    // Redirect to signin
+    router.push('/signin');
   };
 
   const handlePageChange = (page: string) => {
     console.log('Sidebar - changing to page:', page);
     setActivePage(page);
+    
+    // Close sidebar on mobile after selection
+    if (isMobile) {
+      toggleSidebar();
+    }
+  };
+
+  // Handle overlay click on mobile
+  const handleOverlayClick = () => {
+    if (isMobile) {
+      toggleSidebar();
+    }
   };
 
   return (
     <>
-    <aside className={`${isOpen ? 'w-64' : 'w-0 overflow-hidden'} bg-white shadow-sm min-h-screen transition-all duration-300 ease-in-out`}>
+      {/* Overlay for mobile */}
+      {isMobile && isOpen && (
+        <div 
+          className="fixed inset-0 bg-gray-700/50 z-40"
+          onClick={handleOverlayClick}
+        />
+      )}
+      
+      <aside className={`
+        ${isMobile 
+          ? `fixed left-0 top-0 h-full z-50 transform transition-transform duration-300 ease-in-out ${
+              isOpen ? 'translate-x-0' : '-translate-x-full'
+            } w-64`
+          : `${isOpen ? 'w-64' : 'w-0 overflow-hidden'} transition-all duration-300 ease-in-out`
+        } 
+        bg-white shadow-sm min-h-screen
+      `}>
           <nav className="mt-8">
             <div className="px-6 py-4">
               <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
