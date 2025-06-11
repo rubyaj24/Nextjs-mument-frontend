@@ -36,7 +36,7 @@ const SignIn = () => {
     setError('')
 
     try {
-      const tokenResponse = await fetch('http://localhost:8000/api/token/', {
+      const tokenResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/token/`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',

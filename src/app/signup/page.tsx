@@ -34,7 +34,7 @@ const Page = () => {
     setError('');
     
     try {
-      const response = await fetch('http://localhost:8000/api/users/signup/', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/signup/`, {
         method: 'POST',
         headers: {
           'accept': 'application/json',
