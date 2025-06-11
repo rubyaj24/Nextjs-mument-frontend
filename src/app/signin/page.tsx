@@ -29,14 +29,13 @@ const SignIn = () => {
       [e.target.name]: e.target.value
     })
   }
-
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setError('')
+    e.preventDefault();
+    setLoading(true);
+    setError('');
 
     try {
-      const tokenResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/token/`, {
+      const tokenResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/token/`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',

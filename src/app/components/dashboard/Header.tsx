@@ -22,7 +22,7 @@ const Header = ({ toggleSidebar, setActivePage }: HeaderProps) => {
         const token = localStorage.getItem('token');
         
         if (token) {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/details/`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/details/`, {
             headers: {
               Authorization: `Bearer ${token}`,
               'Content-Type': 'application/json'

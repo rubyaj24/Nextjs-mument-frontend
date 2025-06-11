@@ -24,7 +24,7 @@ const Profile = () => {
         }
 
         // Fetch profile with token - use consistent localhost endpoint
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/users/details/`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users/details/`, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json'

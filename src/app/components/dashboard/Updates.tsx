@@ -23,7 +23,7 @@ const Updates = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('token');
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/report/daily-report/`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/daily-report/`, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -60,7 +60,7 @@ const Updates = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/report/submit/`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/submit/`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

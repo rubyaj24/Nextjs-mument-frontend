@@ -33,13 +33,11 @@ const Page = () => {
     setIsLoading(true);
     setError('');
     
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/signup/`, {
+    try {      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/signup/`, {
         method: 'POST',
         headers: {
           'accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-CSRFTOKEN': 'ICLld71x8PFTA71Hsku5zK2dEljJTevGPfu4ghH8olWNslWujgcOPpagWQKfR7qg'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData)
       });
