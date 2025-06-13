@@ -118,29 +118,6 @@ const SideBar = ({ isOpen, setActivePage, activePage, toggleSidebar }: SideBarPr
                   {option.name}
                 </button>
               ))}
-              {/* <button
-                onClick={() => handlePageChange('profile')}
-                className={`flex items-center w-full px-6 py-3 text-left transition-colors whitespace-nowrap ${
-                  activePage === 'profile' 
-                    ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700' 
-                    : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
-                }`}
-              >
-                <FaUser className="h-5 w-5 mr-3" />
-                Profile
-              </button>
-              
-              <button
-                onClick={() => handlePageChange('community')}
-                className={`flex items-center w-full px-6 py-3 text-left transition-colors whitespace-nowrap ${
-                  activePage === 'community' 
-                    ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700' 
-                    : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
-                }`}
-              >
-                <FaUsers className="h-5 w-5 mr-3" />
-                Community
-              </button> */}
               
               <button
                 onClick={handleLogout}
