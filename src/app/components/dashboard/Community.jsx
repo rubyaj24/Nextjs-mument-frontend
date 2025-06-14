@@ -16,7 +16,7 @@ const Community = () => {
             <p className="text-gray-800">This section is under construction. Please check back later for updates.</p>
             <p className="text-gray-800">We appreciate your patience!</p>
         </div>
-        <div className="mt-6">
+        {/* <div className="mt-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 auto-rows-auto">
               {demoimage.map((image, index) => (
                 <div key={index} className="bg-white rounded-lg shadow-md p-4">
@@ -30,7 +30,7 @@ const Community = () => {
               <div className="bg-white rounded-lg shadow-md p-4 col-span-1 row-span-2">Item 5</div>
               <div className="bg-white rounded-lg shadow-md p-4 col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-1 xl:col-span-1 row-span-1">Item 6</div>
             </div>
-        </div>
+        </div> */}
     </div>
   )
 }

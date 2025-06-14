@@ -49,12 +49,11 @@ const DashboardButtons = () => {
             </Link>
           </>
         )}
-        <Link href="/about" className="bg-white text-blue-600 px-6 py-3 rounded-2xl hover:bg-blue-700 hover:text-white transition-colors">
-          Learn More
-        </Link>
       </div>
       <div className="flex items-center justify-center mt-4">
-      <p className="text-white text-sm mb-2">Welcome back, {userEmail}!</p>
+        {isAuthenticated && (
+          <p className="text-white text-sm mb-2">Welcome back, {userEmail}!</p>
+        )}
       </div>
     </div>
   )

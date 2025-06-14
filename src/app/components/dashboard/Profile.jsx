@@ -24,7 +24,7 @@ const Profile = () => {
         }
 
         // Fetch profile with token - use consistent localhost endpoint
-        const response = await axios.get('http://localhost:8000/api/users/details/', {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users/details/`, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -110,7 +110,7 @@ const Profile = () => {
             </div>
             
             <div className="bg-gray-50 p-4 rounded-lg">
-              <p className="font-semibold text-gray-700">MU ID:</p>
+              <p className="font-semibold text-gray-700">μ ID:</p>
               <p className="text-gray-900">{profile.mu_id || 'Not provided'}</p>
             </div>
           </div>

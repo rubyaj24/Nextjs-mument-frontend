@@ -1,9 +1,10 @@
 'use client'
 import { FaUser } from 'react-icons/fa'
-import { FaUsers } from 'react-icons/fa6'
+import { FaRegPenToSquare, FaUsers } from 'react-icons/fa6'
 import { MdOutlineLogout } from "react-icons/md";
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 interface SideBarProps {
   isOpen: boolean;
@@ -46,26 +47,28 @@ const SideBar = ({ isOpen, setActivePage, activePage, toggleSidebar }: SideBarPr
     localStorage.removeItem('userEmail');
     localStorage.removeItem('refreshToken');
     
-    // Redirect to signin
     router.push('/signin');
   };
 
   const handlePageChange = (page: string) => {
     console.log('Sidebar - changing to page:', page);
     setActivePage(page);
-    
-    // Close sidebar on mobile after selection
     if (isMobile) {
       toggleSidebar();
     }
   };
 
-  // Handle overlay click on mobile
   const handleOverlayClick = () => {
     if (isMobile) {
       toggleSidebar();
     }
   };
+
+  const options = [
+    { name: 'Profile', icon: <FaUser className='h-5 w-5 mr-3' />, value: 'profile' },
+    { name: 'Community', icon: <FaUsers className='h-5 w-5 mr-3' />, value: 'community' },
+    { name: 'Daily Updates', icon: <FaRegPenToSquare className='h-5 w-5 mr-3' />, value: 'updates' },
+  ];
 
   return (
     <>
@@ -86,37 +89,35 @@ const SideBar = ({ isOpen, setActivePage, activePage, toggleSidebar }: SideBarPr
         } 
         bg-white shadow-sm min-h-screen
       `}>
-          <nav className="mt-8">
+          <nav className="mt-4">
             <div className="px-6 py-4">
+              <Image
+                src="/mument-black.png"
+                alt="Logo"
+                width={100}
+                height={100}
+                className={`${isMobile ?'w-36 py-2' : 'hidden'}`}
+              />
               <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
                 Menu
               </h2>
             </div>
             
             <div className="space-y-1">
-              <button
-                onClick={() => handlePageChange('profile')}
-                className={`flex items-center w-full px-6 py-3 text-left transition-colors whitespace-nowrap ${
-                  activePage === 'profile' 
-                    ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700' 
-                    : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
-                }`}
-              >
-                <FaUser className="h-5 w-5 mr-3" />
-                Profile
-              </button>
-              
-              <button
-                onClick={() => handlePageChange('community')}
-                className={`flex items-center w-full px-6 py-3 text-left transition-colors whitespace-nowrap ${
-                  activePage === 'community' 
-                    ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700' 
-                    : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
-                }`}
-              >
-                <FaUsers className="h-5 w-5 mr-3" />
-                Community
-              </button>
+              {options.map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => handlePageChange(option.value)}
+                  className={`flex items-center w-full px-6 py-3 text-left transition-colors whitespace-nowrap ${
+                    activePage === option.value 
+                      ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700' 
+                      : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                  }`}
+                >
+                  {option.icon}
+                  {option.name}
+                </button>
+              ))}
               
               <button
                 onClick={handleLogout}
