@@ -21,6 +21,7 @@ const Dashboard = () => {
   const [showOverlay, setShowOverlay] = useState(false);
   const [profile, setProfile] = useState<{ img_url?: string; name?: string } | undefined>(undefined);
   const [profileLoading, setProfileLoading] = useState(true);
+  const [profileError, setProfileError] = useState<string | null>(null);
   const router = useRouter();
 
   const dateRange = {
@@ -111,8 +112,10 @@ const Dashboard = () => {
             'Content-Type': 'application/json'
           }
         });
+
         setProfile(response.data);
         setProfileLoading(false);
+        setProfileError(null);
       } catch (err) {
         if (axios.isAxiosError(err) && err.response?.status === 401) {
           localStorage.removeItem('token');
@@ -121,6 +124,7 @@ const Dashboard = () => {
           router.push('/signin');
         } else {
           setProfileLoading(false);
+          setProfileError('Error fetching profile');
           console.error('Error fetching profile:', err);
         }
       }
@@ -145,10 +149,10 @@ const Dashboard = () => {
   };
 
   const renderContent = () => {
-    console.log('Current active page:', activePage);
+        return <Profile profile={profile} loading={profileLoading} error={profileError} />;
     switch (activePage) {
       case 'profile':
-        return <Profile profile={profile} loading={profileLoading} />;
+        return <Profile profile={profile} loading={profileLoading} error={profileError} />;
       case 'community':
         return <Community />;
       case 'updates':
