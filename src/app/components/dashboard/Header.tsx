@@ -8,6 +8,8 @@ import { useState, useEffect } from 'react';
 interface HeaderProps {
   toggleSidebar: () => void;
   setActivePage: (page: string) => void;
+  profile?: { img_url?: string; name?: string };
+  profileLoading?: boolean;
 }
 
 const Header = ({ toggleSidebar, setActivePage }: HeaderProps) => {

@@ -12,6 +12,7 @@ const SignIn = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
+  const [suggestions, setSuggestions] = useState<string[]>([]);
   const router = useRouter()
 
   // Pre-fill email from signup if available
@@ -89,10 +90,23 @@ const SignIn = () => {
       }
       
       setError(errorMessage);
+      handleAuthError(errorMessage); // Call the error handler
     } finally {
       setLoading(false);
     }
   }
+
+  const handleAuthError = (errorMessage: string) => {
+    if (errorMessage.includes('No active account found')) {
+      setError('We couldn\'t find an account with those credentials.');
+      setSuggestions([
+        'Double-check your email address for typos',
+        'Try a different email if you have multiple accounts',
+        'Create a new account if you haven\'t registered yet',
+        'Contact support if you believe this is an error'
+      ]);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-600 to-purple-700 flex items-center justify-center px-4">
@@ -103,8 +117,15 @@ const SignIn = () => {
         </div>
 
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            {error}
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+            <p className="text-red-800 font-medium">{error}</p>
+            {suggestions.length > 0 && (
+              <ul className="mt-2 text-sm text-red-700">
+                {suggestions.map((suggestion, index) => (
+                  <li key={index} className="mt-1">• {suggestion}</li>
+                ))}
+              </ul>
+            )}
           </div>
         )}
         {success && (

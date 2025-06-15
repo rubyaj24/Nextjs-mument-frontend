@@ -1,55 +1,8 @@
 'use client'
 
 import Image from "next/image"
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
 
-const Profile = () => {
-  const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const router = useRouter();
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        // First check if user is authenticated
-        const isAuthenticated = localStorage.getItem('isAuthenticated');
-        const token = localStorage.getItem('token');
-        
-        if (!isAuthenticated || isAuthenticated !== 'true' || !token) {
-          router.push('/signin');
-          return;
-        }
-
-        // Fetch profile with token - use consistent localhost endpoint
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users/details/`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        });
-        setProfile(response.data);
-        setLoading(false);
-      } catch (err) {
-        if (err.response?.status === 401) {
-          // Token expired or invalid
-          localStorage.removeItem('token');
-          localStorage.removeItem('isAuthenticated');
-          localStorage.removeItem('userEmail');
-          router.push('/signin');
-        } else {
-          setError('Failed to load profile data');
-          setLoading(false);
-          console.error('Error fetching profile:', err);
-        }
-      }
-    };
-
-    fetchProfile();
-  }, [router]);
-
+const Profile = ({ profile, loading, error }) => {
   if (loading) {
     return (
       <div className="p-6 bg-white rounded-lg shadow-md">

@@ -33,7 +33,8 @@ const Page = () => {
     setIsLoading(true);
     setError('');
     
-    try {      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/signup/`, {
+    try {      
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/signup/`, {
         method: 'POST',
         headers: {
           'accept': 'application/json',

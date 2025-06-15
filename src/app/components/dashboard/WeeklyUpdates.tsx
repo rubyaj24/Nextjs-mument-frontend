@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from "react"
 
-interface DailyUpdate {
+interface WeeklyUpdate {
   id: number;
   uuid: string;
   title: string;
@@ -9,8 +9,8 @@ interface DailyUpdate {
   created_at: string;
 }
 
-const Updates = () => {
-  const [updates, setUpdates] = useState<DailyUpdate[]>([]);
+const WeeklyUpdates = () => {
+  const [updates, setUpdates] = useState<WeeklyUpdate[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -60,14 +60,13 @@ const Updates = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const email = localStorage.getItem('userEmail')
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/report/submit/`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ title, content, email })
+        body: JSON.stringify({ title, content })
       });
       
       if (!response.ok) {
@@ -102,9 +101,9 @@ const Updates = () => {
 
   return (
     <>
-        <h1 className="text-2xl font-semibold mb-4">Daily Updates</h1>
+        <h1 className="text-2xl font-semibold mb-4">Weekly Updates</h1>
         <p className="text-gray-600 mb-6">
-            Share your daily updates here. This helps keep track of your progress and share insights with the community.
+            Share your weekly updates here. This helps keep track of your progress and share insights with the community.
         </p>
         
         {error && (
@@ -115,7 +114,7 @@ const Updates = () => {
 
         <div className='p-6 bg-white rounded-lg shadow-md'>
           <h2 className='text-xl font-semibold mb-4'>Submit Your Update</h2>
-          <p className='text-gray-600 mb-4'>Please provide a title and content for your daily update.</p>
+          <p className='text-gray-600 mb-4'>Please provide a title and content for your weekly update.</p>
           <form className='mt-4' onSubmit={handleSubmit}>
               <label className='block mb-2 text-sm font-medium text-gray-700'>
                   Update Title:
@@ -130,12 +129,12 @@ const Updates = () => {
               </label>
               <label className='block mb-2 text-sm font-medium text-gray-700'>
                   Update Content:
-                  <textarea 
+                  <input
+                      type='text' 
                       name='content'
                       required
                       className='mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500'
-                      rows={4}
-                      placeholder='Enter update content'
+                      placeholder='Enter your drive link contains image here'
                   />
               </label>
               <button 
@@ -177,4 +176,4 @@ const Updates = () => {
   )
 }
 
-export default Updates
+export default WeeklyUpdates

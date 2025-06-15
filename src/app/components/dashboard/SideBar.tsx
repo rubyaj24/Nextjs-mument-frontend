@@ -1,10 +1,11 @@
 'use client'
-import { FaUser } from 'react-icons/fa'
+import { FaUser, FaUserTie } from 'react-icons/fa'
 import { FaRegPenToSquare, FaUsers } from 'react-icons/fa6'
 import { MdOutlineLogout } from "react-icons/md";
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useUserRole } from '../../hooks/useUserRole';
 
 interface SideBarProps {
   isOpen: boolean;
@@ -17,6 +18,7 @@ interface SideBarProps {
 const SideBar = ({ isOpen, setActivePage, activePage, toggleSidebar }: SideBarProps) => {
   const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
+  const { isCoordinator, loading: roleLoading } = useUserRole();
 
   useEffect(() => {
     const checkMobile = () => {
@@ -64,11 +66,18 @@ const SideBar = ({ isOpen, setActivePage, activePage, toggleSidebar }: SideBarPr
     }
   };
 
-  const options = [
+  const baseOptions = [
     { name: 'Profile', icon: <FaUser className='h-5 w-5 mr-3' />, value: 'profile' },
     { name: 'Community', icon: <FaUsers className='h-5 w-5 mr-3' />, value: 'community' },
     { name: 'Daily Updates', icon: <FaRegPenToSquare className='h-5 w-5 mr-3' />, value: 'updates' },
+    { name: 'Weekly Updates', icon: <FaRegPenToSquare className='h-5 w-5 mr-3' />, value: 'weekly-updates' },
   ];
+
+  const coordinatorOptions = [
+    { name: 'User Updates', icon: <FaUserTie className='h-5 w-5 mr-3' />, value: 'user-updates' }
+  ]
+
+  const options = roleLoading ? baseOptions : isCoordinator ? [...baseOptions, ...coordinatorOptions] : baseOptions;
 
   return (
     <>

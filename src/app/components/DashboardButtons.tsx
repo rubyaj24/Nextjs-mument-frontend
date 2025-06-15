@@ -16,6 +16,9 @@ const DashboardButtons = () => {
   const handleSignOut = () => {
     localStorage.removeItem('isAuthenticated')
     localStorage.removeItem('userEmail')
+    localStorage.removeItem('userId')
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('refreshToken')
     setIsAuthenticated(false)
     setUserEmail('')
   }
@@ -51,8 +54,10 @@ const DashboardButtons = () => {
         )}
       </div>
       <div className="flex items-center justify-center mt-4">
-        {isAuthenticated && (
+        {isAuthenticated ? (
           <p className="text-white text-sm mb-2">Welcome back, {userEmail}!</p>
+        ) : (
+          <p className="text-white text-sm mb-2">Please sign in to access your dashboard.</p>
         )}
       </div>
     </div>

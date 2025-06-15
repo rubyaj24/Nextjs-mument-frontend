@@ -1,15 +1,16 @@
+'use client'
 import Hero from "@/app/components/Hero"
 import About from "@/app/components/About";
 import Footer from "@/app/components/Footer"
 import Navbar from "@/app/components/Navbar";
-import Head from "next/head";
+// OLD HEAD IMPORT
+// import Head from "next/head";
+// import type { Metadata } from "next";
+
 export default function Home() {
 
   return (
     <div className="w-full min-h-screen">
-      <Head>
-        <title>μment - Kickstart Your Project Journey</title>
-      </Head>
       <Navbar />
       {/* <hr className="h-[1.5px] bg-gray-600 border-0" /> */}
       <main className="w-full fade-in-up">
