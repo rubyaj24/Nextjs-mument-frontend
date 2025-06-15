@@ -149,7 +149,6 @@ const Dashboard = () => {
   };
 
   const renderContent = () => {
-        return <Profile profile={profile} loading={profileLoading} error={profileError} />;
     switch (activePage) {
       case 'profile':
         return <Profile profile={profile} loading={profileLoading} error={profileError} />;
