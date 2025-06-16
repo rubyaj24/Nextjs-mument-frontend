@@ -139,7 +139,7 @@ const Community = () => {
               <img 
                 src={submission.image_url} 
                 alt={submission.title} 
-                className="w-full h-full max-h-100 object-cover object-top rounded" 
+                className="w-full h-full max-h-100 object-cover rounded" 
               />
             </div>
           ))}
@@ -151,7 +151,7 @@ const Community = () => {
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 transition-opacity fade-in-out duration-100" onClick={handleOverlayClick}>
           <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-auto">
             <div className="p-4 flex justify-between items-start">
-              <h2 className="text-xl font-bold">{selectedSubmission.title}</h2>
+              <h2 className="text-xl font-bold">{selectedSubmission.checkpoint} | {selectedSubmission.title}</h2>
               <FaXmark onClick={() => setShowOverlay(false)} className="cursor-pointer text-gray-500 hover:text-gray-800" />
             </div>
             <div className="px-4 pb-4">
@@ -163,6 +163,7 @@ const Community = () => {
                 />
               </div>
               <div className="mt-4 text-sm text-gray-600">
+                <p>{selectedSubmission.description}</p>
                 <p><span className="font-medium">Submitted by:</span> {selectedSubmission.email}</p>
                 <p><span className="font-medium">Date:</span> {new Date(selectedSubmission.created_at).toLocaleDateString()}</p>
               </div>

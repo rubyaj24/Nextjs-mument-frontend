@@ -24,75 +24,89 @@ const Dashboard = () => {
   const [profileError, setProfileError] = useState<string | null>(null);
   const router = useRouter();
 
-  const dateRange = {
-    start: new Date('2025-06-08'),
-    end: new Date('2025-06-08')
+  // Improved project date logic
+  const projectStartDate = new Date('2025-06-08');
+  const projectEndDate = new Date('2025-07-08'); // 30 days after start
+  
+  // Calculate current day and week
+  const getCurrentDayAndWeek = () => {
+    const today = new Date();
+    
+    // Before project starts
+    if (today < projectStartDate) {
+      return { currentDay: 0, currentWeek: 0, totalDays: 30, totalWeeks: 4 };
+    }
+    
+    // After project ends
+    if (today > projectEndDate) {
+      return { currentDay: 30, currentWeek: 4, totalDays: 30, totalWeeks: 4 };
+    }
+    
+    // During project
+    const dayDiff = Math.floor((today.getTime() - projectStartDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+    const weekDiff = Math.ceil(dayDiff / 7);
+    
+    return {
+      currentDay: dayDiff,
+      currentWeek: weekDiff,
+      totalDays: 30,
+      totalWeeks: 4
+    };
   };
   
-  // Set end date to 30 days after start date
-  dateRange.end.setDate(dateRange.end.getDate() + 30);
+  const { currentDay, currentWeek, totalDays, totalWeeks } = getCurrentDayAndWeek();
 
-  const currentDay = Math.ceil((new Date().getTime() - new Date('2025-06-08').getTime()) / (1000 * 60 * 60 * 24));
-  const totalDays = Math.ceil((dateRange.end.getTime() - dateRange.start.getTime()) / (1000 * 60 * 60 * 24));
-
-  const currentWeek = Math.ceil(currentDay / 7);
-  const totalWeeks = Math.ceil(totalDays / 7);
-
- 
+  // Weekly overlay logic
   useEffect(() => {
-
-    setShowOverlay(true);
-
-    // Trigger confetti animation
-    confetti({
-      particleCount: 100,
-      angle: 120,
-      spread: 70,
-      origin: { x: 1, y: 1 }
-    });
-    confetti({
-      particleCount: 100,
-      angle: 60,
-      spread: 70,
-      origin: { x: 0, y: 1 }
-    });
-
-    // Automatically close the overlay after 3 seconds
-    const overlayTimeout = setTimeout(() => {
-      setShowOverlay(false);
-    }, 3000);
-
-    // Function to handle window resize
-    const handleResize = () => {
-      const isMobile = window.innerWidth < 768;
-      
-      // Close sidebar on mobile, open on desktop
-      setIsSidebarOpen(!isMobile);
-    };
-
-    handleResize();
-
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      clearTimeout(overlayTimeout);
-    };
-  }, []);
-
-  useEffect(() => {
-    // Check if user is logged in and overlay hasn't been shown yet
+    // Check if user is logged in and determine if overlay should be shown based on the week
     const checkAndShowOverlay = () => {
-      const isLoggedIn = localStorage.getItem('isLoggedIn'); // or your auth state
-      const overlayShown = localStorage.getItem('welcomeOverlayShown');
+      const isAuthenticated = localStorage.getItem('isAuthenticated');
       
-      // Show overlay only if user is logged in and overlay hasn't been shown
-      if (isLoggedIn && !overlayShown) {
+      if (!isAuthenticated || isAuthenticated !== 'true') {
+        return;
+      }
+      
+      // Get the last week when overlay was shown
+      const lastOverlayWeek = localStorage.getItem('lastOverlayWeek');
+      
+      // Show overlay if:
+      // 1. We're in a valid project week (1-4)
+      // 2. User has never seen overlay or we're in a new week compared to last time
+      if (
+        currentWeek > 0 && 
+        currentWeek <= totalWeeks && 
+        (!lastOverlayWeek || parseInt(lastOverlayWeek) < currentWeek)
+      ) {
         setShowOverlay(true);
+        
+        // Trigger confetti animation
+        confetti({
+          particleCount: 100,
+          angle: 120,
+          spread: 70,
+          origin: { x: 1, y: 1 }
+        });
+        confetti({
+          particleCount: 100,
+          angle: 60,
+          spread: 70,
+          origin: { x: 0, y: 1 }
+        });
       }
     };
 
+    // Function to handle window resize
+    // const handleResize = () => {
+    //   const isMobile = window.innerWidth < 768;
+      
+    //   // Close sidebar on mobile, open on desktop
+    //   setIsSidebarOpen(!isMobile);
+    // };
+
+    // handleResize();
+
     checkAndShowOverlay();
-  }, []);
+  }, [currentWeek, totalWeeks]);
 
   // Fetch profile data once in Dashboard
   useEffect(() => {
@@ -144,8 +158,23 @@ const Dashboard = () => {
 
   const handleCloseOverlay = () => {
     setShowOverlay(false);
-    // Mark overlay as shown so it won't appear again
-    localStorage.setItem('welcomeOverlayShown', 'true');
+    // Store the current week number to track when the overlay was last shown
+    localStorage.setItem('lastOverlayWeek', currentWeek.toString());
+  };
+
+  // Update overlay content based on week number
+  const getWeeklyMessage = () => {
+    if (currentWeek === 1) {
+      return {
+        title: "Welcome to Your 30-Day Journey!",
+        message: "You're starting your first week. Set your goals and get ready!"
+      };
+    } else {
+      return {
+        title: `Congrats! You've completed Week ${currentWeek - 1}`,
+        message: `${totalWeeks - currentWeek + 1} weeks to go. Share your progress in Checkpoints!`
+      };
+    }
   };
 
   const renderContent = () => {
@@ -167,17 +196,17 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Overlay */}
+      {/* Overlay with dynamic content based on week */}
       <Overlay isVisible={showOverlay} onClose={handleCloseOverlay}>
-        <h1 className='text-2xl font-bold'>Congrats, You&apos;ve completed <span className='text-4xl text-blue-500'>Week {currentWeek-1}</span></h1>
+        <h1 className='text-2xl font-bold'>{getWeeklyMessage().title}</h1>
         <Image
           src="Personal goals-bro.svg"
-          alt="Congrats Image"
+          alt="Weekly progress image"
           width={500}
           height={300}
           className="h-92"
         />
-        <p className='text-gray-600 text-center'>Tell us more, in Weekly updates</p>
+        <p className='text-gray-600 text-center'>{getWeeklyMessage().message}</p>
       </Overlay>
       {/* Header */}
       <Header 
