@@ -8,11 +8,11 @@ import SideBar from '../components/dashboard/SideBar';
 import Profile from '../components/dashboard/Profile';
 import Community from '../components/dashboard/Community'
 import Updates from '../components/dashboard/Updates';
-import WeeklyUpdates from '../components/dashboard/WeeklyUpdates';
 import Overlay from '../components/dashboard/Overlay';
 import Image from 'next/image';
 import confetti from 'canvas-confetti';
 import UserUpdates from '../components/dashboard/UserUpdates';
+import Checkpoints from '../components/dashboard/Checkpoints';
 
 
 const Dashboard = () => {
@@ -156,8 +156,8 @@ const Dashboard = () => {
         return <Community />;
       case 'updates':
         return <Updates />;
-      case 'weekly-updates':
-        return <WeeklyUpdates />;
+      case 'checkpoints':
+        return <Checkpoints />;
         case 'user-updates':
         return <UserUpdates />;
       default:
@@ -183,8 +183,7 @@ const Dashboard = () => {
       <Header 
         toggleSidebar={toggleSidebar} 
         setActivePage={handleSetActivePage}
-        profile={profile}
-        profileLoading={profileLoading}
+        userData={profile}
       />
 
       <div className="flex">

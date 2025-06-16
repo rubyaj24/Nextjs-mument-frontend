@@ -31,7 +31,7 @@ const UserUpdates = () => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`https://mument-apis.onrender.com/api/coordinators/players-details/`,
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/coordinators/players-details/`,
           {
             headers: {
               'Authorization': `Bearer ${token}`,

@@ -1,5 +1,5 @@
 'use client'
-import { FaUser, FaUserTie } from 'react-icons/fa'
+import { FaFlagCheckered, FaUser, FaUserTie } from 'react-icons/fa'
 import { FaRegPenToSquare, FaUsers } from 'react-icons/fa6'
 import { MdOutlineLogout } from "react-icons/md";
 import { useState, useEffect } from 'react';
@@ -70,7 +70,7 @@ const SideBar = ({ isOpen, setActivePage, activePage, toggleSidebar }: SideBarPr
     { name: 'Profile', icon: <FaUser className='h-5 w-5 mr-3' />, value: 'profile' },
     { name: 'Community', icon: <FaUsers className='h-5 w-5 mr-3' />, value: 'community' },
     { name: 'Daily Updates', icon: <FaRegPenToSquare className='h-5 w-5 mr-3' />, value: 'updates' },
-    { name: 'Weekly Updates', icon: <FaRegPenToSquare className='h-5 w-5 mr-3' />, value: 'weekly-updates' },
+    { name: 'Checkpoints', icon: <FaFlagCheckered className='h-5 w-5 mr-3' />, value: 'checkpoints' },
   ];
 
   const coordinatorOptions = [

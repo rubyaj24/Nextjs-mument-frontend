@@ -1,36 +1,173 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
+import { FaXmark } from 'react-icons/fa6'
 
 const Community = () => {
+  const [selectedSubmission, setSelectedSubmission] = useState(null)
+  const [showOverlay, setShowOverlay] = useState(false)
+  const [checkpointSubmissions, setCheckpointSubmissions] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
 
-  const demoimage = [
-    'https://placehold.co/150',
-    'https://placehold.co/600x400',
-    'https://placehold.co/150',
-    ]
+  const handleThumbClick = (e) => {
+    const index = parseInt(e.currentTarget.dataset.index)
+    const submissionData = checkpointSubmissions[index]
+    setSelectedSubmission(submissionData)
+    setShowOverlay(true)
+    }
+
+    const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      setShowOverlay(false)
+    }
+  }
+
+  // const checkpointSubmissions = [
+  //   {
+  //     id: 1,
+  //     title: 'Checkpoint 1',
+  //     image: 'https://placehold.co/1080',
+  //     submittedBy: 'User1',
+  //     submittedAt: '2023-10-01',
+  //   },
+  //   {
+  //     id: 2,
+  //     title: 'Checkpoint 2',
+  //     image: 'https://placehold.co/600x400',
+  //     submittedBy: 'User2',
+  //     submittedAt: '2023-10-02',
+  //   },
+  //   {
+  //     id: 3,
+  //     title: 'Checkpoint 3',
+  //     image: 'https://placehold.co/1080x720',
+  //     submittedBy: 'User3',
+  //     submittedAt: '2023-10-03',
+  //   },
+  //   {
+  //     id: 4,
+  //     title: 'Checkpoint 4',
+  //     image: 'https://placehold.co/1080x1920',
+  //     submittedBy: 'User4',
+  //     submittedAt: '2023-10-04',
+  //   },
+  //   {
+  //     id: 5,
+  //     title: 'Checkpoint 5',
+  //     image: 'https://placehold.co/500x500',
+  //     submittedBy: 'User5',
+  //     submittedAt: '2023-10-05',
+  //   },
+  // ]
+
+  useEffect(() => {
+    
+
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch(`https://dummyjson.com/c/ca90-25a5-46d6-93bb`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch checkpoint submissions');
+        }
+        const data = await response.json();
+
+        const transformedData = data.map(item => {
+  if (item.image && item.image.includes('drive.google.com')) {
+    // Extract file ID from various Google Drive URL formats
+    let fileId;
+    
+    if (item.image.includes('/d/')) {
+      // Format: https://drive.google.com/file/d/FILE_ID/view
+      fileId = item.image.split('/d/')[1].split('/')[0];
+    } else if (item.image.includes('id=')) {
+      // Format: https://drive.google.com/uc?id=FILE_ID
+      fileId = item.image.split('id=')[1].split('&')[0];
+    }
+    
+    if (fileId) {
+      // Use this specific format for embedding
+      return {
+        ...item,
+        image: `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`
+      };
+    }
+  }
+  return item;
+});
+
+        setCheckpointSubmissions(transformedData);
+      } catch (error) {
+        console.error(error);
+        setError('Failed to load checkpoint submissions. Please try again later.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [])
 
   return (
     <div className="p-2">
-        <h1 className="text-2xl font-bold mb-4">Community</h1>
-        <p>Welcome to the community section!</p>
-        <div className="mt-6">
-            <p className="text-gray-800">This section is under construction. Please check back later for updates.</p>
-            <p className="text-gray-800">We appreciate your patience!</p>
-        </div>
-        {/* <div className="mt-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 auto-rows-auto">
-              {demoimage.map((image, index) => (
-                <div key={index} className="bg-white rounded-lg shadow-md p-4">
-                  <img src={image} alt={`Demo ${index + 1}`} className="w-full h-auto rounded" />
-                </div>
-              ))}
-              <div className="bg-white rounded-lg shadow-md p-4 col-span-1 sm:col-span-2 md:col-span-2 lg:col-span-2 xl:col-span-3 row-span-2">Item 1</div>
-              <div className="bg-white rounded-lg shadow-md p-4 col-span-1 row-span-1">Item 2</div>
-              <div className="bg-white rounded-lg shadow-md p-4 col-span-1 row-span-1">Item 3</div>
-              <div className="bg-white rounded-lg shadow-md p-4 col-span-1 sm:col-span-1 md:col-span-1 lg:col-span-2 xl:col-span-2 row-span-1">Item 4</div>
-              <div className="bg-white rounded-lg shadow-md p-4 col-span-1 row-span-2">Item 5</div>
-              <div className="bg-white rounded-lg shadow-md p-4 col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-1 xl:col-span-1 row-span-1">Item 6</div>
+      <h1 className="text-2xl font-bold mb-4">Community</h1>
+      <p>Welcome to the community section!</p>
+      <div className="mt-6">
+        <p className="text-gray-800">This section is under construction. Please check back later for updates.</p>
+        <p className="text-gray-800">We appreciate your patience!</p>
+        { isLoading && (
+          <div className="mt-4 text-center">
+            <p className="text-gray-600">Loading submissions...</p>
+          </div>
+        ) }
+        { error && (
+          <div className="mt-4 text-red-600">
+            <p>{error}</p>
+          </div>
+        )}
+      </div>
+      <div className="mt-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 auto-rows-auto">
+          {checkpointSubmissions.map((submission, index) => (
+            <div 
+              key={submission.id} 
+              className="bg-white rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow"
+              data-index={index}
+              onClick={handleThumbClick}
+            >
+              <img 
+                src={submission.image} 
+                alt={submission.title} 
+                className="w-full h-full max-h-100 object-cover object-top rounded" 
+              />
             </div>
-        </div> */}
+          ))}
+        </div>
+      </div>
+
+      {/* Image Preview Overlay */}
+      {showOverlay && selectedSubmission && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 transition-opacity fade-in-out duration-100" onClick={handleOverlayClick}>
+          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-auto">
+            <div className="p-4 flex justify-between items-start">
+              <h2 className="text-xl font-bold">{selectedSubmission.title}</h2>
+              <FaXmark onClick={() => setShowOverlay(false)} className="cursor-pointer text-gray-500 hover:text-gray-800" />
+            </div>
+            <div className="px-4 pb-4">
+              <div className="mb-4">
+                <img 
+                  src={selectedSubmission.image} 
+                  alt={selectedSubmission.title} 
+                  className="w-full h-auto object-contain max-h-[70vh]" 
+                />
+              </div>
+              <div className="mt-4 text-sm text-gray-600">
+                <p><span className="font-medium">Submitted by:</span> {selectedSubmission.submittedBy}</p>
+                <p><span className="font-medium">Date:</span> {selectedSubmission.submittedAt}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

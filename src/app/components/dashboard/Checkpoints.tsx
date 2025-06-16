@@ -101,7 +101,7 @@ const WeeklyUpdates = () => {
 
   return (
     <>
-        <h1 className="text-2xl font-semibold mb-4">Weekly Updates</h1>
+        <h1 className="text-2xl font-semibold mb-4">Checkpoints</h1>
         <p className="text-gray-600 mb-6">
             Share your weekly updates here. This helps keep track of your progress and share insights with the community.
         </p>
@@ -113,22 +113,22 @@ const WeeklyUpdates = () => {
         )}
 
         <div className='p-6 bg-white rounded-lg shadow-md'>
-          <h2 className='text-xl font-semibold mb-4'>Submit Your Update</h2>
-          <p className='text-gray-600 mb-4'>Please provide a title and content for your weekly update.</p>
+          <h2 className='text-xl font-semibold mb-4'>Submit Your Checkpoints</h2>
+          <p className='text-gray-600 mb-4'>Please provide a title and content for your checkpoint.</p>
           <form className='mt-4' onSubmit={handleSubmit}>
               <label className='block mb-2 text-sm font-medium text-gray-700'>
-                  Update Title:
+                  Checkpoint Title:
                   <input 
                       type='text' 
                       name='title'
                       required
                       maxLength={255}
                       className='mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500'
-                      placeholder='Enter update title'
+                      placeholder='Enter checkpoint title'
                   />
               </label>
               <label className='block mb-2 text-sm font-medium text-gray-700'>
-                  Update Content:
+                  Checkpoint Content:
                   <input
                       type='text' 
                       name='content'

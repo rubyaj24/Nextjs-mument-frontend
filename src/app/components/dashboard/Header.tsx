@@ -8,58 +8,37 @@ import { useState, useEffect } from 'react';
 interface HeaderProps {
   toggleSidebar: () => void;
   setActivePage: (page: string) => void;
-  profile?: { img_url?: string; name?: string };
-  profileLoading?: boolean;
+  userData?: {
+    name?: string;
+    img_url?: string;
+    email?: string;
+  };
 }
 
-const Header = ({ toggleSidebar, setActivePage }: HeaderProps) => {
+const Header = ({ toggleSidebar, setActivePage, userData }: HeaderProps) => {
   const [userName, setUserName] = useState('User');
   const [profile, setProfile] = useState<{ img_url?: string }>({});
   const [showDropdown, setShowDropdown] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const fetchUserName = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        
-        if (token) {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/details/`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            }
-          });
-          
-          if (response.ok) {
-            const userData = await response.json();
-            setUserName(userData.name || 'User');
-            setProfile({
-              img_url: userData.img_url || ''
-            });
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching user name:', error);
-        // Fallback to stored email or default
-        const userEmail = localStorage.getItem('userEmail');
-        if (userEmail) {
-          setUserName(userEmail.split('@')[0]); // Use email prefix as fallback
-        }
+    if (userData) {
+      setUserName(userData.name || 'User');
+      setProfile({ img_url: userData.img_url });
+    } else {
+      const userEmail = localStorage.getItem('userEmail');
+      if (userEmail) {
+        setUserName(userEmail.split('@')[0] || 'User');
       }
-    };
+    }
 
     const checkMobile = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
     };
 
-    
-
     checkMobile();
-
-    fetchUserName();
-  }, []);
+  }, [userData]);
   
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -71,6 +50,7 @@ const Header = ({ toggleSidebar, setActivePage }: HeaderProps) => {
       setActivePage('profile');
       setShowDropdown(false);
     };
+
 
   return (
     <>
