@@ -140,17 +140,18 @@ const UserUpdates = () => {
         Monitor daily and weekly updates from users in your coordination.
       </p>
 
-      <div className="flex flex-col">
-        <div className="flex gap-4 mb-6">
-          <div className="flex flex-wrap gap-4">
-          <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-700 mb-2">Select Coordinator</label>
-            <select 
-              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={selectedCoordinator}
-              onChange={(e) => setSelectedCoordinator(e.target.value)}
-            >
-              <option value="">All Coordinators</option>
+      {!loading && (
+        <div className="flex flex-col">
+          <div className="flex gap-4 mb-6">
+            <div className="flex flex-wrap gap-4">
+              <div className="flex flex-col">
+                <label className="text-sm font-medium text-gray-700 mb-2">Select Coordinator</label>
+                <select
+                  className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={selectedCoordinator}
+                  onChange={(e) => setSelectedCoordinator(e.target.value)}
+                >
+                  <option value="">All Coordinators</option>
               {coordinators.map((coordinator, index) => (
                 <option key={index} value={coordinator}>
                   {coordinator}
@@ -218,6 +219,9 @@ const UserUpdates = () => {
           )}
         </div>
       </div>
+      )}
+
+      {/* Loading and Error States */}
 
       {loading && (
         <p className="text-gray-500 m-4">Loading coordinator data...</p>
