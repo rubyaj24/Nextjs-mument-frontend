@@ -2,16 +2,20 @@ export default async function handler(req, res) {
   const { path } = req.query;
   let apiPath = Array.isArray(path) ? path.join('/') : path;
   
+  // Get base API URL from environment variables
+  const API_BASE_URL = process.env.API_BASE_URL;
+  
   // Ensure trailing slash for Django API compatibility
   if (apiPath && !apiPath.endsWith('/')) {
     apiPath += '/';
   }
   
-  console.log(`Proxying request to: https://mument-apis.onrender.com/api/${apiPath}`);
+  console.log(`Proxying request to: ${API_BASE_URL}/${apiPath}`);
   console.log(`Method: ${req.method}`);
   console.log(`Request body:`, req.body);
   console.log(`Headers:`, req.headers);
-    try {
+  
+  try {
     // Clean headers - remove browser/Next.js specific headers
     const cleanHeaders = {
       'Accept': 'application/json',
@@ -32,7 +36,7 @@ export default async function handler(req, res) {
       cleanHeaders['X-CSRFTOKEN'] = req.headers['x-csrftoken'];
     }
     
-    const response = await fetch(`https://mument-apis.onrender.com/api/${apiPath}`, {
+    const response = await fetch(`${API_BASE_URL}/${apiPath}`, {
       method: req.method,
       headers: cleanHeaders,
       body: req.method !== 'GET' && req.method !== 'HEAD' ? JSON.stringify(req.body) : undefined,
@@ -46,7 +50,8 @@ export default async function handler(req, res) {
     
     // Check if response is actually JSON
     const contentType = response.headers.get('content-type');
-      if (!response.ok) {
+    
+    if (!response.ok) {
       console.error(`API Error: ${response.status} ${response.statusText}`);
       console.error(`Response body: ${responseText.substring(0, 500)}`);
       
@@ -54,11 +59,11 @@ export default async function handler(req, res) {
       if (responseText.includes('<!DOCTYPE html>') || responseText.includes('<html')) {
         const titleMatch = responseText.match(/<title>(.*?)<\/title>/i);
         const errorTitle = titleMatch ? titleMatch[1] : `${response.status} ${response.statusText}`;
-          return res.status(response.status).json({ 
+        return res.status(response.status).json({ 
           error: `External API Error: ${errorTitle}`,
           details: `The external API server returned an error page`,
           status: response.status,
-          url: `https://mument-apis.onrender.com/api/${apiPath}`
+          url: `${API_BASE_URL}/${apiPath}`
         });
       }
       
@@ -66,9 +71,10 @@ export default async function handler(req, res) {
       try {
         const errorData = JSON.parse(responseText);
         return res.status(response.status).json(errorData);
-      } catch {        return res.status(response.status).json({ 
+      } catch {
+        return res.status(response.status).json({ 
           error: `API request failed: ${response.status} ${response.statusText}`,
-          url: `https://mument-apis.onrender.com/api/${apiPath}`,
+          url: `${API_BASE_URL}/${apiPath}`,
           responseBody: responseText.substring(0, 500)
         });
       }
@@ -92,12 +98,13 @@ export default async function handler(req, res) {
         contentType: contentType,
         responseBody: responseText.substring(0, 500)
       });
-    }  } catch (error) {
+    }
+  } catch (error) {
     console.error('API Proxy Error:', error.message);
     res.status(500).json({ 
       error: 'API request failed',
       details: error.message,
-      url: `https://mument-apis.onrender.com/api/${apiPath}`
+      url: `${API_BASE_URL}/${apiPath}`
     });
   }
 }

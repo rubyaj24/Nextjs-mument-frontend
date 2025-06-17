@@ -124,7 +124,7 @@ const Updates = () => {
                       name='title'
                       required
                       maxLength={255}
-                      className='mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500'
+                      className='mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-1 transition-all focus:ring-blue-500 focus:border-blue-500'
                       placeholder='Enter update title'
                   />
               </label>
@@ -133,7 +133,7 @@ const Updates = () => {
                   <textarea 
                       name='content'
                       required
-                      className='mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500'
+                      className='mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-1 transition-all focus:ring-blue-500 focus:border-blue-500'
                       rows={4}
                       placeholder='Enter update content'
                   />
@@ -169,7 +169,7 @@ const Updates = () => {
               </div>
             ) : (
               <div className='bg-white p-4 rounded-lg shadow-md'>
-                <p className='text-gray-500'>No updates available yet. Be the first to share!</p>
+                <p className='text-gray-500'>No updates available yet.</p>
               </div>
             )}
         </div>

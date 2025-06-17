@@ -1,9 +1,11 @@
 'use client'
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaUser } from 'react-icons/fa'
+import { FaBlackTie, FaUser } from 'react-icons/fa'
 import { IoMenu } from "react-icons/io5";
 import { useState, useEffect } from 'react';
+import { useUserRole } from '@/app/hooks/useUserRole';
+import { IoIosClose } from 'react-icons/io';
 
 interface HeaderProps {
   toggleSidebar: () => void;
@@ -13,13 +15,16 @@ interface HeaderProps {
     img_url?: string;
     email?: string;
   };
+  setShowGuideOverlay: (show: boolean) => void;
 }
 
-const Header = ({ toggleSidebar, setActivePage, userData }: HeaderProps) => {
+const Header = ({ toggleSidebar, setActivePage, userData, setShowGuideOverlay }: HeaderProps) => {
   const [userName, setUserName] = useState('User');
   const [profile, setProfile] = useState<{ img_url?: string }>({});
   const [showDropdown, setShowDropdown] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const { isCoordinator } = useUserRole();
+  const [showCoordinatorMessage, setShowCoordinatorMessage] = useState(false);
 
   useEffect(() => {
     if (userData) {
@@ -37,8 +42,15 @@ const Header = ({ toggleSidebar, setActivePage, userData }: HeaderProps) => {
       setIsMobile(mobile);
     };
 
+    if(showCoordinatorMessage) {
+      const timer = setTimeout(() => {
+        setShowCoordinatorMessage(false);
+      }, 3000); // Hide after 3 seconds
+      return () => clearTimeout(timer);
+    }
+
     checkMobile();
-  }, [userData]);
+  }, [userData, showCoordinatorMessage]);
   
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -51,6 +63,16 @@ const Header = ({ toggleSidebar, setActivePage, userData }: HeaderProps) => {
       setShowDropdown(false);
     };
 
+  const handleCoordinatorClick = () => {
+    setShowCoordinatorMessage(true);
+    setShowDropdown(false);
+  };
+
+  const handleGuideClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setShowGuideOverlay(true);
+    setShowDropdown(false);
+  };
 
   return (
     <>
@@ -66,14 +88,18 @@ const Header = ({ toggleSidebar, setActivePage, userData }: HeaderProps) => {
               className={isMobile ? "hidden" : "w-32 px-2 pt-2"}
             />
             <h1 className="text-white">
-              <span className='italic text-2xl'>Hi, </span><span className='font-semibold text-3xl'>{userName}!</span>
+              <span className='italic text-xl'>Hi, </span><span className='font-semibold text-2xl md:text-3xl lg:text-3xl'>{userName}!</span>
             </h1>
           </div>
           <div className="flex justify-around space-x-4">
+            {isCoordinator && (
+              <FaBlackTie className="h-6 w-6 text-white self-center cursor-pointer hover:text-gray-200 transition-colors" 
+              onClick={handleCoordinatorClick}/>
+            )}
             <div className="relative">
               <div 
                 className="h-8 w-8 rounded-full bg-white flex items-center justify-center cursor-pointer"
-                onClick={() => setShowDropdown(!showDropdown)}
+                onClick={() => { setShowDropdown(!showDropdown); setShowCoordinatorMessage(false); }}
               >
                 {profile.img_url ? <Image src={profile.img_url} alt="Profile" width={32} height={32} className="rounded-full" /> : <FaUser className="h-5 w-5 text-gray-700" />}
               </div>
@@ -84,6 +110,13 @@ const Header = ({ toggleSidebar, setActivePage, userData }: HeaderProps) => {
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-500"
                     onClick={handleProfileClick}>Profile</Link>
                   <Link href="/" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-500">Go to Home</Link>
+                  <Link
+                    href="#"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-500"
+                    onClick={handleGuideClick}
+                  >
+                    User Guide
+                  </Link>
                   <Link
                     href="#"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-red-500"
@@ -97,6 +130,28 @@ const Header = ({ toggleSidebar, setActivePage, userData }: HeaderProps) => {
               )}
             </div>
           </div>
+
+          {/* Coordinator Message Box */}
+          {showCoordinatorMessage && (
+            <div className="absolute top-16 right-6 w-64 bg-white rounded-lg shadow-lg p-4 z-20 border-l-4 border-blue-600">
+              <div className="flex items-start">
+                <div className="flex-shrink-0 pt-0.5">
+                  <FaBlackTie className="h-5 w-5 text-blue-600" />
+                </div>
+                <div className="ml-3">
+                  <h3 className="text-sm font-medium text-gray-900">Coordinator Status</h3>
+                  <p className="mt-1 text-sm text-gray-500">You&apos;re a coordinator now</p>
+                </div>
+                <button 
+                  className="ml-auto bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none"
+                  onClick={() => setShowCoordinatorMessage(false)}
+                >
+                  <span className="sr-only">Close</span>
+                  <IoIosClose className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
     </>
   )

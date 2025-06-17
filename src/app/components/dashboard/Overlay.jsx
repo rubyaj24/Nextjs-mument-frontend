@@ -5,8 +5,7 @@ const Overlay = ({ isVisible, onClose, children }) => {
 
   return (
     <div 
-      className="fixed inset-0 bg-gray-800/50 flex items-center justify-center z-50 backdrop-blur-sm"
-      onClick={onClose}
+      className="fixed inset-0 bg-gray-800/50 flex items-center justify-center z-100 backdrop-blur-sm"
     >
       <div 
         className="relative bg-white rounded-xl shadow-2xl max-w-lg w-11/12 max-h-[80vh] overflow-y-auto p-8 transform transition-all duration-300 ease-out animate-in fade-in zoom-in-95"

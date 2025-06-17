@@ -13,18 +13,20 @@ import Image from 'next/image';
 import confetti from 'canvas-confetti';
 import UserUpdates from '../components/dashboard/UserUpdates';
 import Checkpoints from '../components/dashboard/Checkpoints';
+import { FaLightbulb, FaUsers, FaFlagCheckered } from 'react-icons/fa';
 
 
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [activePage, setActivePage] = useState('profile');
-  const [showOverlay, setShowOverlay] = useState(false);
+  const [showWelcomeOverlay, setShowWelcomeOverlay] = useState(false);
+  const [showGuideOverlay, setShowGuideOverlay] = useState(false);
   const [profile, setProfile] = useState<{ img_url?: string; name?: string } | undefined>(undefined);
   const [profileLoading, setProfileLoading] = useState(true);
   const [profileError, setProfileError] = useState<string | null>(null);
   const router = useRouter();
 
-  // Improved project date logic
+  // project date logic
   const projectStartDate = new Date('2025-06-08');
   const projectEndDate = new Date('2025-07-08'); // 30 days after start
   
@@ -56,7 +58,6 @@ const Dashboard = () => {
   
   const { currentDay, currentWeek, totalDays, totalWeeks } = getCurrentDayAndWeek();
 
-  // Weekly overlay logic
   useEffect(() => {
     // Check if user is logged in and determine if overlay should be shown based on the week
     const checkAndShowOverlay = () => {
@@ -77,9 +78,8 @@ const Dashboard = () => {
         currentWeek <= totalWeeks && 
         (!lastOverlayWeek || parseInt(lastOverlayWeek) < currentWeek)
       ) {
-        setShowOverlay(true);
+        setShowWelcomeOverlay(true);
         
-        // Trigger confetti animation
         confetti({
           particleCount: 100,
           angle: 120,
@@ -94,16 +94,6 @@ const Dashboard = () => {
         });
       }
     };
-
-    // Function to handle window resize
-    // const handleResize = () => {
-    //   const isMobile = window.innerWidth < 768;
-      
-    //   // Close sidebar on mobile, open on desktop
-    //   setIsSidebarOpen(!isMobile);
-    // };
-
-    // handleResize();
 
     checkAndShowOverlay();
   }, [currentWeek, totalWeeks]);
@@ -156,10 +146,14 @@ const Dashboard = () => {
     setActivePage(page);
   };
 
-  const handleCloseOverlay = () => {
-    setShowOverlay(false);
+  const handleCloseWelcome = () => {
+    setShowWelcomeOverlay(false);
     // Store the current week number to track when the overlay was last shown
     localStorage.setItem('lastOverlayWeek', currentWeek.toString());
+  };
+
+  const handleCloseGuide = () => {
+    setShowGuideOverlay(false);
   };
 
   // Update overlay content based on week number
@@ -196,8 +190,8 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Overlay with dynamic content based on week */}
-      <Overlay isVisible={showOverlay} onClose={handleCloseOverlay}>
+      {/* Welcome Overlay */}
+      <Overlay isVisible={showWelcomeOverlay} onClose={handleCloseWelcome}>
         <h1 className='text-2xl font-bold'>{getWeeklyMessage().title}</h1>
         <Image
           src="Personal goals-bro.svg"
@@ -208,11 +202,61 @@ const Dashboard = () => {
         />
         <p className='text-gray-600 text-center'>{getWeeklyMessage().message}</p>
       </Overlay>
+
+      {/* Guide Overlay */}
+      <Overlay isVisible={showGuideOverlay} onClose={handleCloseGuide}>
+        <h1 className='text-3xl font-bold text-center mb-6'><Image src="/mument-black.png" alt="Logo" width={100} height={100} className='inline-block w-28 pt-1' /><span className='text-gray-800'> |</span> User Guide</h1>
+        <div className="max-w-3xl mx-auto">
+          <div className="space-y-6">
+            <div className="bg-white p-4 rounded-lg shadow-md">
+              <div className="flex items-start">
+                <div className="flex-shrink-0 mt-1">
+                  <FaFlagCheckered className="h-6 w-6 text-blue-500" />
+                </div>
+                <div className="ml-4">
+                  <h3 className="text-lg font-medium text-gray-900">Checkpoints</h3>
+                  <p className="mt-1 text-gray-600">Submit your Weekly checkpoints and daily updates. Upload screenshots or images of your work to show what you&apos;ve accomplished.</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white p-4 rounded-lg shadow-md">
+              <div className="flex items-start">
+                <div className="flex-shrink-0 mt-1">
+                  <FaUsers className="h-6 w-6 text-blue-500" />
+                </div>
+                <div className="ml-4">
+                  <h3 className="text-lg font-medium text-gray-900">Community</h3>
+                  <p className="mt-1 text-gray-600">Connect with other participants and see what they&apos;re working on. Share ideas and get inspired.</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white p-4 rounded-lg shadow-md">
+              <div className="flex items-start">
+                <div className="flex-shrink-0 mt-1">
+                  <FaLightbulb className="h-6 w-6 text-blue-500" />
+                </div>
+                <div className="ml-4">
+                  <h3 className="text-lg font-medium text-gray-900">Pro Tips</h3>
+                    <ul className="list-disc list-inside space-y-1">
+                      <li>Update your checkpoints regularly to track your progress</li>
+                      <li>Check the community page for inspiration and feedback</li>
+                      <li>Reach out to coordinators if you need assistance</li>
+                    </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Overlay>
+      
       {/* Header */}
       <Header 
         toggleSidebar={toggleSidebar} 
         setActivePage={handleSetActivePage}
         userData={profile}
+        setShowGuideOverlay={setShowGuideOverlay}
       />
 
       <div className="flex">

@@ -191,28 +191,28 @@ const Checkpoints = () => {
               name='checkpoint'
               required
               maxLength={255}
-              className='mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500'
+              className='mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-1 transition-all focus:ring-blue-500 focus:border-blue-500'
               placeholder='Enter checkpoint # (e.g., 1, 2, 3, etc.)'
           />
         </label>
-          <label className='block mb-2 text-sm font-medium text-gray-700'>
-              Checkpoint Title:
-              <input 
-                  type='text' 
-                  name='title'
+        <label className='block mb-2 text-sm font-medium text-gray-700'>
+          Checkpoint Title:
+          <input 
+            type='text' 
+            name='title'
                   required
                   maxLength={255}
-                  className='mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500'
+                  className='mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-1 transition-all focus:ring-blue-500 focus:border-blue-500'
                   placeholder='Enter checkpoint title'
-              />
-          </label>
+          />
+            </label>
           <label className='block mb-2 text-sm font-medium text-gray-700'>
               Checkpoint Content:
               <textarea 
                   name='content'
                   required
                   maxLength={1000}
-                  className='mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500'
+                  className='mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-1 transition-all focus:ring-blue-500 focus:border-blue-500'
                   placeholder='Enter checkpoint content (max 1000 characters)'
                   rows={4}
               />
@@ -224,14 +224,22 @@ const Checkpoints = () => {
                   <li>Image link must be a Google Drive link</li>
                   <li>Image link must be publicly accessible</li>
                   <li>Ensure the link contains an image file</li>
-                  <li>Example: <code className="bg-blue-50 mx-2">https://drive.google.com/file/d/your_image_id/view?usp=sharing</code></li>
+                  <li className="flex flex-wrap items-center">
+                    <span>Example: </span>
+                    <div className="mt-1 bg-blue-50 p-2 rounded overflow-x-auto max-w-full">
+                      <code className="text-xs text-blue-800 whitespace-normal break-all">
+                        https://drive.google.com/file/d/your_image_id/view?usp=sharing
+                      </code>
+                    </div>
+                  </li>
+                  
                 </ul>
               </div>
               <input
                   type='text' 
                   name='img_url'
                   required
-                  className='mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500'
+                  className='mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-1 transition-all focus:ring-blue-500 focus:border-blue-500'
                   placeholder='Enter your drive link contains image here'
               />
           </label>
