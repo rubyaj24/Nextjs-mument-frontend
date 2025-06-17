@@ -84,6 +84,9 @@ const SignIn = () => {
       console.log('Access token:', tokenData.access_token, tokenData.access, tokenData.token);
       
       if (accessToken) {
+        // Clear any previous authentication data
+        console.log('Clearing previous authentication data');
+        localStorage.clear();
         // Store authentication data
         localStorage.setItem('token', accessToken);
         localStorage.setItem('isAuthenticated', 'true');
