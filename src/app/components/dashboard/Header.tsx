@@ -88,7 +88,7 @@ const Header = ({ toggleSidebar, setActivePage, userData, setShowGuideOverlay }:
               className={isMobile ? "hidden" : "w-32 px-2 pt-2"}
             />
             <h1 className="text-white">
-              <span className='italic text-xl'>Hi, </span><span className='font-semibold text-2xl md:text-3xl lg:text-3xl'>{userName}!</span>
+              <span className='italic text-xl'>Hi, </span><span className='font-semibold text-2xl md:text-3xl lg:text-3xl'>{userName.split(' ')[0].charAt(0).toUpperCase() + userName.split(' ')[0].slice(1).toLowerCase()}!</span>
             </h1>
           </div>
           <div className="flex justify-around space-x-4">
