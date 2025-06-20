@@ -21,43 +21,30 @@ const Community = () => {
     }
   }
 
-  // const checkpointSubmissions = [
-  //   {
-  //     id: 1,
-  //     title: 'Checkpoint 1',
-  //     image: 'https://placehold.co/1080',
-  //     submittedBy: 'User1',
-  //     submittedAt: '2023-10-01',
-  //   },
-  //   {
-  //     id: 2,
-  //     title: 'Checkpoint 2',
-  //     image: 'https://placehold.co/600x400',
-  //     submittedBy: 'User2',
-  //     submittedAt: '2023-10-02',
-  //   },
-  //   {
-  //     id: 3,
-  //     title: 'Checkpoint 3',
-  //     image: 'https://placehold.co/1080x720',
-  //     submittedBy: 'User3',
-  //     submittedAt: '2023-10-03',
-  //   },
-  //   {
-  //     id: 4,
-  //     title: 'Checkpoint 4',
-  //     image: 'https://placehold.co/1080x1920',
-  //     submittedBy: 'User4',
-  //     submittedAt: '2023-10-04',
-  //   },
-  //   {
-  //     id: 5,
-  //     title: 'Checkpoint 5',
-  //     image: 'https://placehold.co/500x500',
-  //     submittedBy: 'User5',
-  //     submittedAt: '2023-10-05',
-  //   },
-  // ]
+    const getGDriveImageUrl = (url) => {
+  if (!url) return '/image-placeholder.jpg';
+  
+  if (url.includes('drive.google.com')) {
+    // Extract file ID from various Google Drive URL formats
+    let fileId;
+
+    if (url.includes('/d/')) {
+      // Format: https://drive.google.com/file/d/FILE_ID/view or /view?usp=drivesdk
+      fileId = url.split('/d/')[1].split('/')[0];
+    } else if (url.includes('id=')) {
+      // Format: https://drive.google.com/uc?id=FILE_ID
+      fileId = url.split('id=')[1].split(/[&?]/)[0]; // Handle both & and ? after the ID
+    }
+    
+    if (fileId) {
+      // Use thumbnail API for preview - this works more reliably
+      return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
+    }
+  }
+  
+  // Return original URL if it's not a Google Drive URL
+  return url;
+}
 
   useEffect(() => {
     
@@ -77,11 +64,11 @@ const Community = () => {
     let fileId;
 
     if (item.image_url.includes('/d/')) {
-      // Format: https://drive.google.com/file/d/FILE_ID/view
+      // Format: https://drive.google.com/file/d/FILE_ID/view or with ?usp=drivesdk
       fileId = item.image_url.split('/d/')[1].split('/')[0];
     } else if (item.image_url.includes('id=')) {
       // Format: https://drive.google.com/uc?id=FILE_ID
-      fileId = item.image_url.split('id=')[1].split('&')[0];
+      fileId = item.image_url.split('id=')[1].split(/[&?]/)[0]; // Better handling of query params
     }
     
     if (fileId) {
@@ -137,7 +124,7 @@ const Community = () => {
               onClick={handleThumbClick}
             >
               <img 
-                src={submission.image_url} 
+                src={getGDriveImageUrl(submission.image_url)} 
                 alt={submission.title} 
                 className="w-full h-full max-h-100 object-cover rounded" 
               />
@@ -157,7 +144,7 @@ const Community = () => {
             <div className="px-4 pb-4">
               <div className="mb-4">
                 <img 
-                  src={selectedSubmission.image_url} 
+                  src={getGDriveImageUrl(selectedSubmission.image_url)} 
                   alt={selectedSubmission.title} 
                   className="w-full h-auto object-contain max-h-[70vh]" 
                 />
