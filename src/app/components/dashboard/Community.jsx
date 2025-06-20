@@ -125,8 +125,12 @@ const Community = () => {
             >
               <img 
                 src={getGDriveImageUrl(submission.image_url)} 
-                alt={submission.title} 
-                className="w-full h-full max-h-100 object-cover rounded" 
+                alt={submission.title || 'Checkpoint image'} 
+                className="w-full h-full max-h-100 object-cover rounded"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = '/image-placeholder.jpg';
+                }}
               />
             </div>
           ))}
@@ -146,7 +150,11 @@ const Community = () => {
                 <img 
                   src={getGDriveImageUrl(selectedSubmission.image_url)} 
                   alt={selectedSubmission.title} 
-                  className="w-full h-auto object-contain max-h-[70vh]" 
+                  className="w-full h-auto object-contain max-h-[70vh]"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = '/image-placeholder.jpg';
+                  }} 
                 />
               </div>
               <div className="mt-4 text-sm text-gray-600">
