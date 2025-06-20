@@ -1,21 +1,12 @@
 'use client'
 import { useState, useEffect } from "react"
 
-// interface Checkpoint {
-//   id: number;
-//   uuid: string;
-//   title: string;
-//   content: string;
-//   created_at: string;
-// }
-
 const Checkpoints = () => {
-  // const [updates, setUpdates] = useState<WeeklyUpdate[]>([]);
-  // const [loading, setLoading] = useState(false);
   const [buttonText, setButtonText] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState('');
+  const [imgUrlError, setImgUrlError] = useState('');
 
   useEffect(() => {
     // fetchUpdates();
@@ -51,24 +42,54 @@ const Checkpoints = () => {
   //   }
   // };
 
+  // Add a validation function for Google Drive links
+  const validateGoogleDriveLink = (url: string): boolean => {
+    // Check if it's a Google Drive link
+    if (!url.includes('drive.google.com')) {
+      setImgUrlError('URL must be a Google Drive link');
+      return false;
+    }
+    
+    // Check if it ends with usp=sharing
+    if (!url.endsWith('usp=sharing')) {
+      setImgUrlError('Google Drive link must end with "usp=sharing"');
+      return false;
+    }
+    
+    setImgUrlError(''); // Clear error if validation passes
+    return true;
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitting(true);
+    
+    // Reset all error states
     setError('');
     setSuccess('');
-    setButtonText('submitting');
-
+    setImgUrlError('');
+    
     const formData = new FormData(e.currentTarget);
     const checkpoint = formData.get("checkpoint") as string;
     const title = formData.get("title") as string;
     const description = formData.get("content") as string;
     const image_url = formData.get("img_url") as string;
+    
+    // Validate Google Drive link
+    if (!validateGoogleDriveLink(image_url)) {
+      // Focus the input field to draw attention to the error
+      const imgUrlInput = document.querySelector('input[name="img_url"]') as HTMLInputElement;
+      if (imgUrlInput) imgUrlInput.focus();
+      return;
+    }
+    
     const email = localStorage.getItem('userEmail') || '';
     if (!email) {
       setError('User email not found');
-      setSubmitting(false);
       return;
     }
+
+    setSubmitting(true);
+    setButtonText('submitting');
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/checkpoint/add-checkpoint/`, {
@@ -88,11 +109,10 @@ const Checkpoints = () => {
       setSuccess('Update submitted successfully');
       setButtonText('success');
       
-      // Reset form and refresh updates
+      // Reset form
       if (e.currentTarget) {
         e.currentTarget.reset();
       }
-      // await fetchUpdates();
     } catch (error) {
       console.error("Error submitting update:", error);
       setError('Failed to submit update');
@@ -218,30 +238,35 @@ const Checkpoints = () => {
               />
           </label>
           <label className='block mb-2 text-sm font-medium text-gray-700'>
-              Checkpoint Proof:
-              <div className="bg-blue-100 p-2 rounded-md my-2">
-                <ul className="text-blue-500 list-disc list-inside">
-                  <li>Image link must be a Google Drive link</li>
-                  <li>Image link must be publicly accessible</li>
-                  <li>Ensure the link contains an image file</li>
-                  <li className="flex flex-wrap items-center">
-                    <span>Example: </span>
-                    <div className="mt-1 bg-blue-50 p-2 rounded overflow-x-auto max-w-full">
-                      <code className="text-xs text-blue-800 whitespace-normal break-all">
-                        https://drive.google.com/file/d/your_image_id/view?usp=sharing
-                      </code>
-                    </div>
-                  </li>
-                  
-                </ul>
-              </div>
-              <input
-                  type='text' 
-                  name='img_url'
-                  required
-                  className='mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-1 transition-all focus:ring-blue-500 focus:border-blue-500'
-                  placeholder='Enter your drive link contains image here'
-              />
+            Checkpoint Proof:
+            <div className="bg-blue-100 p-3 rounded-md my-2">
+              <ul className="text-blue-600 list-disc list-inside space-y-1.5">
+                <li>Image link must be a Google Drive link</li>
+                <li>Image link must be publicly accessible</li>
+                <li>Image link must end with <strong>usp=sharing</strong></li>
+                <li className="flex flex-wrap items-center">
+                  <span>Example: </span>
+                  <div className="mt-1 bg-blue-50 p-2 rounded overflow-x-auto max-w-full">
+                    <code className="text-xs text-blue-800 whitespace-normal break-all">
+                      https://drive.google.com/file/d/your_image_id/view?usp=sharing
+                    </code>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <input
+              type='text' 
+              name='img_url'
+              required
+              className={`mt-1 block w-full border ${imgUrlError ? 'border-red-500 bg-red-50' : 'border-gray-300'} rounded-lg p-2 focus:outline-none focus:ring-1 transition-all focus:ring-blue-500 focus:border-blue-500`}
+              placeholder='Enter your drive link contains image here'
+              onChange={() => {
+                if (imgUrlError) setImgUrlError('');
+              }}
+            />
+            {imgUrlError && (
+              <p className="mt-1 text-sm text-red-600">{imgUrlError}</p>
+            )}
           </label>
           <button 
             type='submit' 
@@ -252,7 +277,7 @@ const Checkpoints = () => {
                 : buttonText === 'success' 
                   ? 'bg-green-600 hover:bg-green-700' 
                   : 'bg-blue-600 hover:bg-blue-700'
-            } text-white disabled:bg-gray-200`}
+            } text-white disabled:bg-gray-400 disabled:cursor-not-allowed`}
           >
             {getButtonContent()}
           </button>
