@@ -198,8 +198,8 @@ const UserUpdates = () => {
           <h2 className="text-xl font-semibold mb-4">Updates</h2>
           {getFilteredUpdates().length > 0 ? (
             <div className="space-y-4">
-              {getFilteredUpdates().map((update) => (
-                <div key={`${update.email}-${update.id}`} className="border-l-4 border-blue-500 pl-4 py-2">
+              {getFilteredUpdates().map((update, index) => (
+                <div key={`${update.email}-${update.id}-${index}`} className="border-l-4 border-blue-500 pl-4 py-2">
                   <div className="flex justify-between items-start mb-2">
                     <div>
                       <p className="font-medium text-gray-800">{update.title}</p>

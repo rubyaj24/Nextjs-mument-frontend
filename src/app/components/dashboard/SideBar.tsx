@@ -18,7 +18,7 @@ interface SideBarProps {
 const SideBar = ({ isOpen, setActivePage, activePage, toggleSidebar }: SideBarProps) => {
   const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
-  const { isCoordinator, loading: roleLoading } = useUserRole();
+  const { isCoordinator, isAdmin, loading: roleLoading } = useUserRole();
 
   useEffect(() => {
     const checkMobile = () => {
@@ -71,13 +71,32 @@ const SideBar = ({ isOpen, setActivePage, activePage, toggleSidebar }: SideBarPr
     { name: 'Community', icon: <FaUsers className='h-5 w-5 mr-3' />, value: 'community' },
     { name: 'Daily Updates', icon: <FaRegPenToSquare className='h-5 w-5 mr-3' />, value: 'updates' },
     { name: 'Checkpoints', icon: <FaFlagCheckered className='h-5 w-5 mr-3' />, value: 'checkpoints' },
+    // { name: 'All Users', icon: <FaUserTie className='h-5 w-5 mr-3' />, value: 'all-users' }
   ];
 
   const coordinatorOptions = [
     { name: 'User Updates', icon: <FaUserTie className='h-5 w-5 mr-3' />, value: 'user-updates' }
   ]
 
-  const options = roleLoading ? baseOptions : isCoordinator ? [...baseOptions, ...coordinatorOptions] : baseOptions;
+  const adminOptions = [
+    { name: 'All Users', icon: <FaUsers className='h-5 w-5 mr-3' />, value: 'all-users' }
+  ];
+
+  const options = (() => {
+    if (roleLoading) return baseOptions;
+    
+    let allOptions = [...baseOptions];
+    
+    if (isCoordinator) {
+      allOptions = [...allOptions, ...coordinatorOptions];
+    }
+    
+    if (isAdmin) {
+      allOptions = [...allOptions, ...adminOptions];
+    }
+    
+    return allOptions;
+  })();
 
   return (
     <>

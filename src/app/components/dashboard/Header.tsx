@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaBlackTie, FaUser } from 'react-icons/fa'
+import { FaBlackTie, FaCrown, FaUser } from 'react-icons/fa'
 import { IoMenu } from "react-icons/io5";
 import { useState, useEffect } from 'react';
 import { useUserRole } from '@/app/hooks/useUserRole';
@@ -23,8 +23,9 @@ const Header = ({ toggleSidebar, setActivePage, userData, setShowGuideOverlay }:
   const [profile, setProfile] = useState<{ img_url?: string }>({});
   const [showDropdown, setShowDropdown] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const { isCoordinator } = useUserRole();
+  const { isCoordinator, isAdmin } = useUserRole();
   const [showCoordinatorMessage, setShowCoordinatorMessage] = useState(false);
+  const [showAdminMessage, setShowAdminMessage] = useState(false);
 
   useEffect(() => {
     if (userData) {
@@ -49,9 +50,16 @@ const Header = ({ toggleSidebar, setActivePage, userData, setShowGuideOverlay }:
       return () => clearTimeout(timer);
     }
 
+    if(showAdminMessage) {
+      const timer = setTimeout(() => {
+        setShowAdminMessage(false);
+      }, 3000); // Hide after 3 seconds
+      return () => clearTimeout(timer);
+    }
+
     checkMobile();
-  }, [userData, showCoordinatorMessage]);
-  
+  }, [userData, showCoordinatorMessage, showAdminMessage]);
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userEmail');
@@ -65,7 +73,14 @@ const Header = ({ toggleSidebar, setActivePage, userData, setShowGuideOverlay }:
 
   const handleCoordinatorClick = () => {
     setShowCoordinatorMessage(true);
+    setShowAdminMessage(false);
     setShowDropdown(false);
+  };
+
+  const handleAdminClick = () => {
+    setShowAdminMessage(true);
+    setShowDropdown(false);
+    setShowCoordinatorMessage(false);
   };
 
   const handleGuideClick = (e: React.MouseEvent) => {
@@ -95,6 +110,10 @@ const Header = ({ toggleSidebar, setActivePage, userData, setShowGuideOverlay }:
             {isCoordinator && (
               <FaBlackTie className="h-6 w-6 text-white self-center cursor-pointer hover:text-gray-200 transition-colors" 
               onClick={handleCoordinatorClick}/>
+            )}
+            {isAdmin && (
+              <FaCrown className="h-6 w-6 text-white self-center cursor-pointer hover:text-gray-200 transition-colors" 
+              onClick={handleAdminClick}/>
             )}
             <div className="relative">
               <div 
@@ -145,6 +164,28 @@ const Header = ({ toggleSidebar, setActivePage, userData, setShowGuideOverlay }:
                 <button 
                   className="ml-auto bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none"
                   onClick={() => setShowCoordinatorMessage(false)}
+                >
+                  <span className="sr-only">Close</span>
+                  <IoIosClose className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Admin Message Box */}
+          {showAdminMessage && (
+            <div className="absolute top-16 right-6 w-64 bg-white rounded-lg shadow-lg p-4 z-20 border-l-4 border-yellow-600">
+              <div className="flex items-start">
+                <div className="flex-shrink-0 pt-0.5">
+                  <FaCrown className="h-5 w-5 text-yellow-600" />
+                </div>
+                <div className="ml-3">
+                  <h3 className="text-sm font-medium text-gray-900">Admin Status</h3>
+                  <p className="mt-1 text-sm text-gray-500">You&apos;re an admin now</p>
+                </div>
+                <button 
+                  className="ml-auto bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none"
+                  onClick={() => setShowAdminMessage(false)}
                 >
                   <span className="sr-only">Close</span>
                   <IoIosClose className="h-5 w-5" />

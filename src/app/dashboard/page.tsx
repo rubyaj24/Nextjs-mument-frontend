@@ -14,6 +14,7 @@ import confetti from 'canvas-confetti';
 import UserUpdates from '../components/dashboard/UserUpdates';
 import Checkpoints from '../components/dashboard/Checkpoints';
 import { FaLightbulb, FaUsers, FaFlagCheckered } from 'react-icons/fa';
+import Users from '../components/dashboard/Users';
 
 
 const Dashboard = () => {
@@ -183,6 +184,8 @@ const Dashboard = () => {
         return <Checkpoints />;
         case 'user-updates':
         return <UserUpdates />;
+        case 'all-users':
+        return <Users />;
       default:
         return <div className="text-center text-gray-500">Dashboard Home - Select an option from the sidebar</div>;
     }
