@@ -69,8 +69,6 @@ const Header = ({ toggleSidebar, setActivePage, userData, setShowGuideOverlay }:
   const handleProfileClick = () => {
       setActivePage('profile');
       setShowDropdown(false);
-      setShowCoordinatorMessage(false);
-      setShowAdminMessage(false);
     };
 
   const handleCoordinatorClick = () => {
@@ -123,7 +121,7 @@ const Header = ({ toggleSidebar, setActivePage, userData, setShowGuideOverlay }:
             <div className="relative">
               <div 
                 className="h-8 w-8 rounded-full bg-white flex items-center justify-center cursor-pointer"
-                onClick={() => { setShowDropdown(!showDropdown); setShowCoordinatorMessage(false); }}
+                onClick={() => { setShowDropdown(!showDropdown); setShowCoordinatorMessage(false); setShowAdminMessage(false); }}
               >
                 {profile.img_url ? <Image src={profile.img_url} alt="Profile" width={32} height={32} className="rounded-full" /> : <FaUser className="h-5 w-5 text-gray-700" />}
               </div>
