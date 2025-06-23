@@ -10,8 +10,8 @@ interface UserDetails {
   domain: string;
   team: string;
   idea_submission: string;
-  is_coordinator?: boolean; // Add the coordinator flag
-  is_admin?: boolean; // Add the admin flag
+  is_coordinator?: boolean;
+  is_admin?: boolean; 
 }
 
 export const useUserRole = () => {
