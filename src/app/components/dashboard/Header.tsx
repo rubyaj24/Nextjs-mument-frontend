@@ -107,14 +107,17 @@ const Header = ({ toggleSidebar, setActivePage, userData, setShowGuideOverlay }:
             </h1>
           </div>
           <div className="flex justify-around space-x-4">
-            {isCoordinator && (
-              <FaBlackTie className="h-6 w-6 text-white self-center cursor-pointer hover:text-gray-200 transition-colors" 
-              onClick={handleCoordinatorClick}/>
-            )}
-            {isAdmin && (
+            {isCoordinator ? isAdmin ? (
+              <FaCrown className="h-6 w-6 text-white self-center cursor-pointer hover:text-gray-200 transition-colors"
+                onClick={handleAdminClick} />
+            ) : (
+              <FaBlackTie className="h-6 w-6 text-white self-center cursor-pointer hover:text-gray-200 transition-colors"
+                onClick={handleCoordinatorClick} />
+            ) : null}
+            {/* {isAdmin && (
               <FaCrown className="h-6 w-6 text-white self-center cursor-pointer hover:text-gray-200 transition-colors" 
               onClick={handleAdminClick}/>
-            )}
+            )} */}
             <div className="relative">
               <div 
                 className="h-8 w-8 rounded-full bg-white flex items-center justify-center cursor-pointer"
