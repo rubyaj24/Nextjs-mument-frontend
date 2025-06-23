@@ -69,6 +69,8 @@ const Header = ({ toggleSidebar, setActivePage, userData, setShowGuideOverlay }:
   const handleProfileClick = () => {
       setActivePage('profile');
       setShowDropdown(false);
+      setShowCoordinatorMessage(false);
+      setShowAdminMessage(false);
     };
 
   const handleCoordinatorClick = () => {
