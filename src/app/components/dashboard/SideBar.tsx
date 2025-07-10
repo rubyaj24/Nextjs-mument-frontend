@@ -71,6 +71,7 @@ const SideBar = ({ isOpen, setActivePage, activePage, toggleSidebar }: SideBarPr
     { name: 'Community', icon: <FaUsers className='h-5 w-5 mr-3' />, value: 'community' },
     { name: 'Daily Updates', icon: <FaRegPenToSquare className='h-5 w-5 mr-3' />, value: 'updates' },
     { name: 'Checkpoints', icon: <FaFlagCheckered className='h-5 w-5 mr-3' />, value: 'checkpoints' },
+    { name: 'Feedback', icon: <FaRegPenToSquare className='h-5 w-5 mr-3' />, value: 'feedback' }
     // { name: 'All Users', icon: <FaUserTie className='h-5 w-5 mr-3' />, value: 'all-users' }
   ];
 

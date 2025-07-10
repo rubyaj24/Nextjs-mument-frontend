@@ -7,8 +7,9 @@ import Header from '../components/dashboard/Header';
 import SideBar from '../components/dashboard/SideBar';
 import Profile from '../components/dashboard/Profile';
 import Community from '../components/dashboard/Community'
-import Updates from '../components/dashboard/Updates';
+// import Updates from '../components/dashboard/Updates';
 import Overlay from '../components/dashboard/Overlay';
+import Feedback from '../components/dashboard/Feedback';
 import Image from 'next/image';
 import confetti from 'canvas-confetti';
 import UserUpdates from '../components/dashboard/UserUpdates';
@@ -179,13 +180,16 @@ const Dashboard = () => {
       case 'community':
         return <Community />;
       case 'updates':
-        return <Updates />;
+        // return <Updates />;
+        return <div className="text-center text-gray-500">Updates feature is closed. See you on next season!!</div>;
       case 'checkpoints':
         return <Checkpoints />;
         case 'user-updates':
         return <UserUpdates />;
         case 'all-users':
         return <Users />;
+        case 'feedback':
+        return <Feedback />;
       default:
         return <div className="text-center text-gray-500">Dashboard Home - Select an option from the sidebar</div>;
     }
